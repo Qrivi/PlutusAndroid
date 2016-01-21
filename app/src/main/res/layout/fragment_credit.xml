@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/padding_activity_extra"
         android:id="@+id/wrapperCredit"
-        tools:context="be.krivi.plutus.android.fragment.CreditFragment">
+        tools:context="be.plutus.android.fragment.CreditFragment">
 
     <ScrollView
             android:layout_width="match_parent"

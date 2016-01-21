@@ -14,7 +14,7 @@
         app:umanoOverlay="true"
         android:clipToPadding="false"
         android:id="@+id/wrapperSlide"
-        tools:context="be.krivi.plutus.android.activity.DetailActivity">
+        tools:context="be.plutus.android.activity.DetailActivity">
 
     <RelativeLayout
             android:layout_width="match_parent"

@@ -20,7 +20,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "be.krivi.plutus.android"
+        applicationId "be.plutus.android"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
