@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:descendantFocusability="beforeDescendants"
+              android:focusableInTouchMode="true"
+              android:padding="@dimen/padding_dialog_default">
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/dialog_edit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ucll_dark_blue"
+                android:hint="€"
+                android:inputType="number"
+                android:maxLength="3"/>
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

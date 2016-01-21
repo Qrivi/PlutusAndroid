@@ -1,0 +1,26 @@
+<resources>
+
+        <color name="ucll_pink">#E00049</color>
+        <color name="ucll_dark_blue">#002757</color>
+        <color name="ucll_light_blue">#9FDAF9</color>
+        <color name="ucll_light">#FFFFFF</color>
+
+        <color name="plutus_dark_gray">#5A5A5A</color>
+        <color name="plutus_light_gray">#DDDDDD</color>
+        <color name="plutus_dark_green">#417505</color>
+        <color name="plutus_green">#7ED321</color>
+        <color name="plutus_red">#D0021B</color>
+
+        <color name="ripple_pink">#820025</color>
+
+        <color name="text_default">@color/plutus_dark_gray</color>
+        <color name="text_clickable">#333333</color>
+        <color name="text_soft">#A2A2A2</color>
+
+        <color name="credit_gauge_min">@color/plutus_red</color>
+        <color name="credit_gauge_center">#adaa3d</color>
+        <color name="credit_gauge_max">@color/plutus_green</color>
+        <color name="transaction_topup">@color/plutus_dark_green</color>
+        <color name="transaction_expense">@color/plutus_red</color>
+
+</resources>

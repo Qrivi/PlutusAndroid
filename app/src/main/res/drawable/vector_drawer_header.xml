@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="800dp"
+        android:height="450dp"
+        android:viewportWidth="800"
+        android:viewportHeight="450">
+
+    <path
+            android:fillColor="@color/ucll_pink"
+            android:pathData="M 0 0 H 800 V 450 H 0 V 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_dark_blue"
+            android:pathData="M 0 232 L 800 401 L 800 0 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_light_blue"
+            android:pathData="M 0 172 L 800 341 L 800 0 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_pink"
+            android:pathData="M 0 122 L 800 291 L 800 0 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_dark_blue"
+            android:pathData="M 0 82 L 800 251 L 800 0 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_light_blue"
+            android:pathData="M 0 264.1 L 649 0 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_dark_blue"
+            android:pathData="M 0 194.1 L 477 0 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_pink"
+            android:pathData="M 649 0 L 149 203.5 L 219.6 218.4 L 800 39.1 L 800 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_dark_blue"
+            android:pathData="M 800 39.1 L 315.7 188.7 L 382.4 202.8 L 800 106.4 Z"/>
+    <path
+            android:fillColor="@color/ucll_light_blue"
+            android:pathData="M 800 106.4 L 472.9 181.9 L 544.3 197 L 800 141.5 Z"/>
+    <path
+            android:fillColor="@color/ucll_light_blue"
+            android:pathData="M 238.5 0 L 0 132.1 L 0 0 Z"/>
+    <path
+            android:fillColor="@color/ucll_pink"
+            android:pathData="M0,49.9C0,49.9,57.3,0,52.5,0S0,0,0,0V49.9z"/>
+    <path
+            android:fillColor="@color/ucll_light_blue"
+            android:pathData="M 0 435 L 800 418.3 L 800 450 L 0 450 Z"/>
+</vector>

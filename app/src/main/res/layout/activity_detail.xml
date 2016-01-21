@@ -1,0 +1,180 @@
+<com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:umanoPanelHeight="115dp"
+        app:umanoFadeColor="@android:color/transparent"
+        app:umanoClipPanel="false"
+        app:umanoShadowHeight="0dp"
+        app:umanoDragView="@+id/det_dragZone"
+        app:umanoInitialState="expanded"
+        app:umanoOverlay="true"
+        android:clipToPadding="false"
+        android:id="@+id/wrapperSlide"
+        tools:context="be.krivi.plutus.android.activity.DetailActivity">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:id="@+id/wrapperMap"
+            android:clipToPadding="false">
+
+        <include
+                layout="@layout/app_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/toolbar"/>
+
+        <fragment
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar"
+                android:layout_marginBottom="85dp"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.MapFragment"
+                tools:layout="@layout/abc_action_bar_title_item"/>
+
+        <ImageButton
+                android:layout_width="@dimen/app_knob"
+                android:layout_height="@dimen/app_knob"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="130dp"
+                android:layout_marginLeft="@dimen/padding_activity_default"
+                android:layout_marginRight="@dimen/padding_activity_default"
+                android:id="@+id/det_btnMaps"
+                android:src="@drawable/ic_directions_white_24dp"
+                android:background="@drawable/shape_fab_holder"
+                android:elevation="@dimen/elevation_fab"
+                android:clipToPadding="false"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".7"
+            android:id="@+id/wrapperDetail"
+            android:background="@android:color/transparent"
+            android:elevation="@dimen/elevation_fab"
+            android:clipToPadding="false"
+            android:clickable="true">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="@dimen/padding_list"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/shadow"
+                android:src="@drawable/shape_shadow"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                android:layout_below="@id/shadow"
+                android:padding="@dimen/padding_activity_default"
+                android:id="@+id/det_dragZone"
+                android:background="@color/ucll_light_blue">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    style="@style/Plutus.DetailTitle"
+                    android:id="@+id/det_title"
+                    android:text="@string/not_applicable_full"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    style="@style/Plutus.DetailSubTitle"
+                    android:id="@+id/det_location"
+                    android:text="@string/not_applicable_full"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    style="@style/Plutus.DetailAmount"
+                    android:id="@+id/det_amount"
+                    android:text="@string/not_applicable_short"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/det_dragZone"
+                android:padding="@dimen/padding_activity_default"
+                android:orientation="vertical"
+                android:background="@color/ucll_light">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_header"
+                    android:layout_marginBottom="@dimen/padding_list"
+                    android:id="@+id/det_description"
+                    android:text="@string/not_applicable_full"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Plutus.RowHeader"
+                    android:id="@+id/det_date"
+                    android:text="@string/not_applicable_full"/>
+        </LinearLayout>
+
+        <RelativeLayout
+                android:layout_width="@dimen/app_knob"
+                android:layout_height="@dimen/app_knob"
+                android:layout_marginLeft="@dimen/padding_activity_default"
+                android:layout_marginRight="@dimen/padding_activity_default"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/tr_wrapperDate"
+                android:background="@drawable/shape_date_holder"
+                android:elevation="@dimen/elevation_fab"
+                android:clipToPadding="false"
+                android:transitionName="transition_date">
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:background="@drawable/shape_date_holder">
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/det_month"
+                        style="@style/Plutus.DetailMonth"
+                        android:clipToPadding="false"
+                        android:text="@string/not_applicable_short"
+                        android:transitionName="transition_date_day"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/det_day"
+                        style="@style/Plutus.DetailDay"
+                        android:clipToPadding="false"
+                        android:text="@string/not_applicable_short"
+                        android:transitionName="transition_date_month"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

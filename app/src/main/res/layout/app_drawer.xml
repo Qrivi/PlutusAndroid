@@ -1,0 +1,28 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/drawer_header"
+        android:padding="@dimen/padding_activity_default"
+        android:background="@drawable/vector_drawer_header"
+        android:fitsSystemWindows="true">
+
+    <!-- extract styles and make this follow Material specs -->
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/lbl_studentId"
+            android:layout_marginBottom="@dimen/drawer_padding_text"
+            style="@style/Plutus.NavUserName"
+            android:id="@+id/lbl_studentName"
+            android:text="@string/not_applicable_short"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            style="@style/Plutus.NavUserInfo"
+            android:id="@+id/lbl_studentId"
+            android:text="@string/not_applicable_short"/>
+
+</RelativeLayout>

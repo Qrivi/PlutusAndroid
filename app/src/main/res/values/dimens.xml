@@ -1,0 +1,56 @@
+<resources>
+
+    <dimen name="padding_activity_default">16dp</dimen><!-- material -->
+    <dimen name="padding_activity_extra">48dp</dimen>
+    <dimen name="padding_dialog_default">20dp</dimen>
+    <dimen name="padding_activity_none">0dp</dimen>
+
+    <dimen name="padding_form">32dp</dimen>
+    <dimen name="padding_list">24dp</dimen>
+    <dimen name="padding_header">10dp</dimen>
+    <dimen name="padding_border">16dp</dimen>
+    <dimen name="padding_contentarea">8dp</dimen>
+    <dimen name="padding_list_with_icons">56dp</dimen><!-- material in combinatie met activity padding -->
+    <dimen name="padding_list_title">2sp</dimen>
+
+    <dimen name="app_header">150dp</dimen>
+    <dimen name="drawer_header">170dp</dimen>
+    <dimen name="drawer_padding_text">4dp</dimen>
+    <dimen name="drawer_text">14sp</dimen>
+
+    <dimen name="link_textSize">13sp</dimen>
+    <dimen name="link_buttonSize">32dp</dimen>
+
+    <dimen name="app_big_title">44sp</dimen>
+    <dimen name="app_detail_title">22sp</dimen>
+    <dimen name="app_list_separator">1sp</dimen>
+    <dimen name="app_list_item">10dp</dimen>
+    <dimen name="app_list_header">14sp</dimen>
+    <dimen name="app_list_title">14sp</dimen><!-- material body -->
+    <dimen name="app_list_subtitle">12sp</dimen><!-- material caption -->
+    <dimen name="app_knob">56dp</dimen><!-- material FAB -->
+    <dimen name="app_knob_small">40dp</dimen><!-- material FAB small -->
+    <dimen name="app_price_small_container">100dp</dimen>
+
+    <dimen name="app_gauge_euros">48sp</dimen>
+    <dimen name="app_gauge_cents">38sp</dimen>
+    <dimen name="app_gauge_currency">20sp</dimen>
+    <dimen name="app_price_small">18sp</dimen>
+    <dimen name="app_price">24sp</dimen>
+    <dimen name="app_date_day_small">14sp</dimen>
+    <dimen name="app_date_day">18sp</dimen>
+    <dimen name="app_date_month_small">10sp</dimen>
+    <dimen name="app_date_month">7sp</dimen>
+
+    <dimen name="app_settings_list_single_size">60dp</dimen><!-- material -->
+    <dimen name="app_settings_list_double_padding">12dp</dimen>
+    <dimen name="app_settings_list_container_button_padding">20dp</dimen>
+
+    <dimen name="padding_date_month">10sp</dimen>
+    <dimen name="padding_date_month_small">4sp</dimen>
+    <dimen name="padding_date_day">-3sp</dimen>
+    <dimen name="padding_date_day_small">-3sp</dimen>
+
+    <dimen name="elevation_fab">6dp</dimen><!-- material -->
+
+</resources>

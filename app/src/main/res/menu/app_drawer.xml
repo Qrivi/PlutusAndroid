@@ -1,0 +1,36 @@
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="be.krivi.plutus.android.MainActivity">
+
+    <group
+            android:id="@+id/drawer_top"
+            android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/navigation_credit"
+                android:icon="@drawable/ic_credit_card_black_24dp"
+                android:title="@string/credit"/>
+
+        <item
+                android:id="@+id/navigation_transactions"
+                android:icon="@drawable/ic_compare_arrows_black_24dp"
+                android:title="@string/transactions"/>
+
+        <item
+                android:id="@+id/navigation_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings"/>
+    </group>
+
+    <group
+            android:id="@+id/drawer_bottom"
+            android:checkableBehavior="single">
+
+        <item
+                android:id="@+id/navigation_signout"
+                android:icon="@drawable/ic_power_settings_new_black_24dp"
+                android:title="@string/sign_out"/>
+    </group>
+
+</menu>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:innerRadiusRatio="2.5"
+       android:shape="ring"
+       android:thicknessRatio="17.0"
+       android:useLevel="true">
+    <gradient
+            android:startColor="@color/plutus_red"
+            android:centerColor="@color/credit_gauge_center"
+            android:endColor="@color/plutus_green"
+            android:type="sweep"/>
+</shape>

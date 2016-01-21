@@ -1,0 +1,99 @@
+<android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/padding_activity_extra"
+        android:id="@+id/wrapperCredit"
+        tools:context="be.krivi.plutus.android.fragment.CreditFragment">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <ProgressBar
+                    android:layout_width="280dp"
+                    android:layout_height="280dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:alpha=".4"
+                    android:rotation="135"
+                    android:id="@+id/gaugeBg"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/shape_gauge"
+                    android:progress="75"
+                    android:indeterminate="false"/>
+
+            <ProgressBar
+                    android:layout_width="280dp"
+                    android:layout_height="280dp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:alpha="1"
+                    android:rotation="135"
+                    android:id="@+id/gauge"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/shape_gauge"
+                    android:progress="1"
+                    android:indeterminate="false"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical">
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_border"
+                        android:layout_marginBottom="@dimen/padding_list_title"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txt_euros"
+                            style="@style/Plutus.GaugeEuros"
+                            android:text="@string/not_applicable_short"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txt_cents"
+                            style="@style/Plutus.GaugeCents"/>
+                </LinearLayout>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/txt_currency"
+                        style="@style/Plutus.GaugeCurrency"
+                        android:text="@string/not_applicable_short"/>
+            </LinearLayout>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_list_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/gauge"
+                    android:id="@+id/txt_fetchDate"
+                    style="@style/Plutus.GaugeDate"
+                    android:text="@string/not_applicable_full"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/txt_fetchDate"
+                    android:id="@+id/txt_fetchTime"
+                    style="@style/Plutus.GaugeDate"
+                    android:text="@string/not_applicable_short"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/tr_rowHeader">
+
+        <View
+                style="@style/Plutus.Separator"
+                android:layout_marginTop="@dimen/app_list_item"
+                android:id="@+id/tr_separator"/>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_list"
+                android:layout_marginRight="@dimen/padding_activity_default"
+                android:layout_marginBottom="@dimen/padding_header"
+                android:layout_marginLeft="@dimen/padding_activity_default"
+                android:id="@+id/tr_header"
+                style="@style/Plutus.RowHeader"
+                android:text="@string/not_applicable_full"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="@dimen/app_list_item"
+            android:paddingBottom="@dimen/app_list_item"
+            android:paddingLeft="@dimen/padding_activity_default"
+            android:paddingRight="@dimen/padding_activity_default"
+            android:id="@+id/tr_rowData"
+            android:focusable="true"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground">
+
+        <RelativeLayout
+                android:layout_width="@dimen/app_knob_small"
+                android:layout_height="@dimen/app_knob_small"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/tr_wrapperDate"
+                android:clipToPadding="false"
+                android:background="@drawable/shape_date_holder">
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:background="@drawable/shape_date_holder">
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tr_month"
+                        android:clipToPadding="false"
+                        style="@style/Plutus.RowMonth"
+                        android:text="@string/not_applicable_short"/>
+
+                <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tr_day"
+                        android:clipToPadding="false"
+                        style="@style/Plutus.RowDay"
+                        android:text="@string/not_applicable_short"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:paddingStart="@dimen/padding_list_with_icons"
+                android:paddingEnd="@dimen/app_price_small_container"
+                android:orientation="vertical">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tr_title"
+                    style="@style/Plutus.RowTitle"
+                    android:text="@string/not_applicable_full"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tr_location"
+                    style="@style/Plutus.RowSubTitle"
+                    android:text="@string/not_applicable_full"/>
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="@dimen/app_price_small_container"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/tr_amount"
+                style="@style/Plutus.RowAmount"
+                android:text="@string/not_applicable_short"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

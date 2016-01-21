@@ -1,0 +1,173 @@
+<resources>
+
+    <!-- GENERAL -->
+
+    <string name="app_name">Plutus</string>
+
+    <string name="credit">Crédit</string>
+    <string name="transactions">Opérations</string>
+    <string name="transaction_detail">Détails</string>
+    <string name="settings">Paramètres</string>
+    <string name="notifications">Notifications</string>
+    <string name="application">Application</string>
+
+    <string name="close_drawer">Fermer</string>
+    <string name="open_drawer">Ouvrir</string>
+    <string name="filters">Filtres</string>
+    <string name="search">Recherche</string>
+    <string name="find_a_transaction">Retrouver une opération</string>
+
+    <string name="not_applicable_short">s. o.</string>
+    <string name="not_applicable_full">sans objet</string>
+    <string name="not_in_beta">Non disponible dans cette bêta</string>
+    <string name="alpha_feature">Attention: fonction alpha</string>
+
+    <string name="language_system">Langue du téléphone</string>
+    <string name="language_english">Anglais</string>
+    <string name="language_dutch">Néerlandais</string>
+    <string name="language_french">Français</string>
+
+    <!-- DATE AND TIME -->
+
+    <string name="on_date">%1$s</string>
+    <string name="at_time">à %1$s</string>
+    <string name="on_timestamp">le %1$s à %2$s</string>
+
+    <string name="january_short">jan</string>
+    <string name="february_short">fév</string>
+    <string name="march_short">mars</string>
+    <string name="april_short">avr</string>
+    <string name="may_short">mai</string>
+    <string name="june_short">juin</string>
+    <string name="july_short">juil</string>
+    <string name="august_short">août</string>
+    <string name="september_short">sept</string>
+    <string name="october_short">oct</string>
+    <string name="november_short">nov</string>
+    <string name="december_short">déc</string>
+    <string name="january_full">janvier</string>
+    <string name="february_full">février</string>
+    <string name="march_full">mars</string>
+    <string name="april_full">avril</string>
+    <string name="may_full">mai</string>
+    <string name="june_full">juin</string>
+    <string name="july_full">juillet</string>
+    <string name="august_full">août</string>
+    <string name="september_full">septembre</string>
+    <string name="october_full">octobre</string>
+    <string name="november_full">novembre</string>
+    <string name="december_full">décembre</string>
+
+    <!-- IDENTIFICATION -->
+
+    <string name="student_id">Numéro d\'étudiant</string>
+    <string name="password">Mot de passe</string>
+    <string name="remember_me">Garder ma session active</string>
+    <string name="sign_in">Connexion</string>
+    <string name="sign_out">Déconnexion</string>
+    <string name="try_again">Réessayer</string>
+
+    <string name="sign_in_using_your_student_credentials">Introduisez vos données d\'étudiant</string>
+    <string name="read_our_privacy_policy">Notre politique de confidentialité</string>
+    <string name="verifying_credentials">Validation des données…</string>
+    <string name="populating_database">Chargement de la base de données…</string>
+
+    <string name="this_field_is_required">Champ obligatoire</string>
+    <string name="this_id_is_too_short">Ce numéro est trop court</string>
+    <string name="this_id_does_not_exist">Ce numéro n\'existe pas</string>
+    <string name="password_is_incorrect">Mot de pas invalide</string>
+
+    <!-- INTERACTION -->
+
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+    <string name="dismiss">OK</string>
+    <string name="reset">Reset</string>
+    <string name="pull_down_to_refresh">Tirer pour rafraîchir</string>
+
+    <string name="database_setting_up">L\'initialisation peut prendre un certain temps</string>
+    <string name="database_updated">Base de données mise à jour</string>
+    <string name="plutus_has_not_yet_checked_your_credit">Plutus n\'a pas encore vérifié votre crédit</string>
+    <string name="no_internet_connection">Vous travaillez hors ligne</string>
+    <string name="there_is_no_active_internet_connection">Pas de connexion internet active</string>
+
+    <!-- SETTINGS -->
+
+    <string name="show_credit_gauge">Afficher compteur de crédit</string>
+    <string name="visualy_display_your_current_credit">Consultez votre crédit de façon graphique</string>
+    <string name="set_minimum">Limite minimum</string>
+    <string name="setting_minimum_message">Ce montant sera utilisé comme valeur minimum du compteur.</string>
+    <string name="set_maximum">Limite maximum</string>
+    <string name="settings_maximum_message">Ce montant sera utilisée comme valeur maximum du compteur.</string>
+
+    <string name="enable_notifications">Activer les notifications</string>
+    <string name="get_notified_about_your_credit">Recevez des notifications concernant votre crédit</string>
+
+    <string name="set_home_screen">Définir l\'écran d\'acceuil</string>
+    <string name="set_home_screen_message">Choississez l\'écran de départ de l\'application.</string>
+    <string name="set_language">Forcer le language</string>
+    <string name="set_language_message">
+        Certaines informations stockées ne seront traduit qu\'après altération du language sur Intranet et la
+        réinitialisation de la base de données de Plutus.
+    </string>
+
+    <string name="reset_application">Réinitialiser l\'application</string>
+    <string name="reset_database">Réinitialiser la base de données</string>
+    <string name="reset_info_application">L\'application a été réinitialisée</string>
+    <string name="reset_info_database">La base de données a été réinitialisée</string>
+    <string name="reset_description">
+        Si Plutus semble ne pas fonctionner correctement ou affiche des données incorrectes, vous pouvez réinitialliser
+        ici.
+    </string>
+    <string name="reset_warning">
+        La réinitialisation de Plutus effacera toutes données locales telles que base de données et préférences.
+    </string>
+    <string name="reset_info">Vous devez relanceer Plutus.</string>
+
+    <!-- ERROR MESSAGES -->
+
+    <string name="something_went_wrong">
+        Oups, une erreur s\'est produite!
+    </string>
+    <string name="error_fetching_credit">
+        Erreur lors de la récupeération du crédit :\n\n
+    </string>
+    <string name="error_fetching_transactions">
+        Erreur lors de la récupeération des opérations :\n\n
+    </string>
+    <string name="error_loading_data_into_app">
+        Erreur lors du chargement du données :\n\n
+    </string>
+    <string name="error_endpoint_verify">
+        Plutus n\'a pas pu valider vos données. Contrôlez si vous utilisez la dernière version de l\'application. Si
+        cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus tard ou
+        contactez-nousconcernant ce problème.
+    </string>
+    <string name="error_endpoint_credit">
+        Plutus n\'a pas pu récuperer votre crédit actuel.\n\nContrôlez si vous utilisez la dernière version de
+        l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus
+        tard ou contactez-nous concernant ce problème.
+    </string>
+    <string name="error_endpoint_transactions">
+        Plutus n\'a pas pu récuperer les opérations les plus écentes.\n\nContrôlez si vous utilisez la dernière version de
+        l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus
+        tard ou contactez-nous concernant ce problème.
+    </string>
+    <string name="error_loading_map">
+        Une erreur est survenue lors du chargement de la carte. Ceci ne devrait pas influencer le bon fonctionnement de
+        Plutus.
+    </string>
+    <string name="error_loading_transaction">
+        Une erreur est survenue lors du chargement du détail. Contrôlez si vous utilisez la dernière version de
+        l\'application. Si cette erreur persiste, n\'hésitez pas de nous contacter concernant ce problème.
+    </string>
+    <string name="error_no_maps_app_installed">
+        Il paraît qu\'il n\'y a pas d\'application installée pouvant vous indiquer la voie vers ce campus. Installez une
+        application adequate et revenez appuyer sur notre bouton!
+    </string>
+
+    <!-- NOT YET LOCALIZED -->
+
+    <string name="placeholder">placeholder — do not translate this</string>
+
+</resources>

@@ -1,0 +1,212 @@
+<resources>
+
+    <style name="Plutus" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/ucll_light_blue</item>
+        <item name="colorPrimaryDark">@color/ripple_pink</item>
+        <item name="colorAccent">@color/ucll_dark_blue</item>
+        <item name="android:colorAccent">@color/ucll_dark_blue</item>
+
+        <item name="android:textColorPrimary">@color/ucll_light</item>
+        <item name="android:textColorSecondary">@color/ucll_light</item>
+        <item name="colorControlHighlight">@color/ucll_light_blue</item>
+        <item name="android:textColor">@color/text_default</item>
+        <item name="android:windowBackground">@color/ucll_light</item>
+        <item name="android:actionModeBackground">@color/ucll_pink</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+    </style>
+
+    <style name="Plutus.Toolbar" parent="ThemeOverlay.AppCompat">
+        <item name="android:background">@color/ucll_pink</item>
+    </style>
+
+    <style name="Plutus.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/ucll_dark_blue</item>
+        <item name="android:textColor">@color/plutus_dark_gray</item>
+        <item name="android:windowFullscreen">false</item>
+    </style>
+
+    <style name="Plutus.NavUserName">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/drawer_text</item>
+        <item name="android:textColor">@color/ucll_light</item>
+    </style>
+
+    <style name="Plutus.NavUserInfo">
+        <item name="android:textSize">@dimen/drawer_text</item>
+        <item name="android:textColor">@color/ucll_light</item>
+    </style>
+
+    <style name="Plutus.GaugeEuros">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_gauge_euros</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="Plutus.GaugeCents">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_gauge_cents</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="Plutus.GaugeCurrency">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_gauge_currency</item>
+    </style>
+
+    <style name="Plutus.GaugeDate">
+        <item name="android:textSize">@dimen/app_list_subtitle</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Plutus.DetailTitle">
+        <item name="android:textSize">@dimen/app_detail_title</item>
+        <item name="android:textColor">@color/text_clickable</item>
+        <item name="android:layout_marginBottom">@dimen/padding_list_title</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="Plutus.DetailSubTitle">
+        <item name="android:textSize">@dimen/app_list_subtitle</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="Plutus.DetailAmount">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_price</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="Plutus.DetailMonth">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_date_month_small</item>
+        <item name="android:textColor">@color/ucll_light_blue</item>
+        <item name="android:layout_marginTop">@dimen/padding_date_month</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Plutus.DetailDay">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_date_day</item>
+        <item name="android:textColor">@color/ucll_light_blue</item>
+        <item name="android:layout_marginTop">@dimen/padding_date_day</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Plutus.RowHeader">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_list_header</item>
+        <item name="android:textColor">@color/text_soft</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="Plutus.RowTitle">
+        <item name="android:textSize">@dimen/app_list_title</item>
+        <item name="android:layout_marginBottom">@dimen/padding_list_title</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="Plutus.RowSubTitle">
+        <item name="android:textSize">@dimen/app_list_subtitle</item>
+        <item name="android:textColor">@color/text_soft</item>
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="Plutus.RowMonth">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_date_month_small</item>
+        <item name="android:textColor">@color/ucll_light_blue</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/padding_date_month_small</item>
+    </style>
+
+    <style name="Plutus.RowDay">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_date_day_small</item>
+        <item name="android:textColor">@color/ucll_light_blue</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/padding_date_day_small</item>
+    </style>
+
+    <style name="Plutus.RowAmount">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/app_price_small</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_marginTop">@dimen/padding_contentarea</item>
+    </style>
+
+    <style name="Plutus.Detail" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/ucll_light_blue</item>
+        <item name="colorPrimaryDark">@color/ripple_pink</item>
+        <item name="colorAccent">@color/ucll_dark_blue</item>
+        <item name="android:colorAccent">@color/ucll_dark_blue</item>
+
+        <item name="android:textColorPrimary">@color/ucll_light</item>
+        <item name="android:textColorSecondary">@color/ucll_light</item>
+        <item name="android:textColor">@color/text_default</item>
+        <item name="android:windowBackground">@color/ucll_light</item>
+        <item name="android:actionModeBackground">@color/ucll_pink</item>
+    </style>
+
+    <style name="Plutus.Login" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/ucll_pink</item>
+        <item name="colorPrimaryDark">@color/ripple_pink</item>
+        <item name="colorAccent">@color/ucll_light_blue</item>
+        <item name="android:colorAccent">@color/ucll_light_blue</item>
+
+        <item name="android:textColor">@color/ucll_light</item>
+        <item name="android:windowBackground">@color/ucll_pink</item>
+        <item name="android:navigationBarColor">@color/ucll_pink</item>
+        <item name="android:actionModeBackground">@color/ucll_pink</item>
+
+        <item name="android:colorButtonNormal">@color/ucll_dark_blue</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+        <item name="editTextStyle">@style/Plutus.Login.EditText</item>
+        <item name="android:buttonStyle">@style/Plutus.Login.Button</item>
+    </style>
+
+    <style name="Plutus.Login.EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="Plutus.Login.Button" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/ucll_dark_blue</item>
+    </style>
+
+    <style name="Plutus.Login.Error" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/ucll_light</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:gravity">right</item>
+    </style>
+
+    <style name="Plutus.Separator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/app_list_separator</item>
+        <item name="android:background">@color/plutus_light_gray</item>
+    </style>
+
+    <style name="Plutus.BigTitle">
+        <item name="android:textSize">@dimen/app_big_title</item>
+        <item name="android:textColor">@color/ucll_light</item>
+        <item name="android:paddingBottom">@dimen/padding_border</item>
+    </style>
+
+    <style name="Plutus.Link">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">@dimen/link_textSize</item>
+        <item name="android:textColor">@color/ucll_light_blue</item>
+        <item name="android:minHeight">@dimen/link_buttonSize</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+</resources>

@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="be.krivi.plutus.android.activity.MainActivity">
+
+    <item android:id="@+id/menu_search"
+          android:title="@string/search"
+          android:icon="@drawable/ic_search_white_24dp"
+          app:showAsAction="always|collapseActionView"
+          app:actionViewClass="android.support.v7.widget.SearchView" />
+
+    <item android:id="@+id/menu_filter"
+          android:title="@string/filters"
+          android:icon="@drawable/ic_filter_list_white_24dp"
+          app:showAsAction="always" />
+</menu>
