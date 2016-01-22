@@ -14,7 +14,6 @@ import be.plutus.android.network.retrofit.RESTService;
 import be.plutus.android.network.retrofit.ServiceGenerator;
 import be.plutus.android.network.retrofit.response.TransactionsResponse;
 import be.plutus.android.network.volley.NetworkClient;
-import be.plutus.android.network.volley.VolleyCallback;
 import be.plutus.android.view.Message;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -24,7 +23,10 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class PlutusAndroid extends Application
 {
@@ -88,34 +90,8 @@ public class PlutusAndroid extends Application
         creditRepresentationMax = ioService.getCreditRepresentationMax();
         databaseIncomplete = ioService.isDatabaseIncomplete();
 
-        switch ( ioService.getLanguageTag() )
-        {
-            case "en":
-                language = Language.ENGLISH;
-                break;
-            case "nl":
-                language = Language.DUTCH;
-                break;
-            case "fr":
-                language = Language.FRENCH;
-                break;
-            default:
-                language = Language.DEFAULT;
-        }
-
-        switch ( ioService.getHomeScreen() )
-        {
-            case "settings":
-                homeScreen = Window.SETTINGS;
-                break;
-            case "transactions":
-                homeScreen = Window.TRANSACTIONS;
-                break;
-            case "credit":
-            default:
-                homeScreen = Window.CREDIT;
-        }
-
+        language = Language.getByTag( ioService.getLanguageTag() );
+        homeScreen = Window.getByOrigin( ioService.getHomeScreen() );
     }
 
     public static Context getAppContext()
@@ -210,7 +186,6 @@ public class PlutusAndroid extends Application
         loadData();
     }
 
-
     public BaseActivity getCurrentActivity()
     {
         return currentActivity;
@@ -274,7 +249,6 @@ public class PlutusAndroid extends Application
 
     public boolean isUserSaved()
     {
-
         return ioService.isUserSaved();
     }
 
@@ -425,9 +399,8 @@ public class PlutusAndroid extends Application
                             MainActivity main = (MainActivity) currentActivity;
                             Message.snack( main.mDrawerLayout, getString( R.string.database_updated ) );
                         }
-                        //ioService.saveDatabaseIncomplete( databaseIncomplete = false );
+                        ioService.saveDatabaseIncomplete( databaseIncomplete = false );
                         Log.i( "Data status", "refreshed -- saved to db (1)" );
-                        //return; // safety first
                     }
                 }
 
@@ -438,7 +411,6 @@ public class PlutusAndroid extends Application
                 }
             } );
         }
-
     }
 
     public void setTransactionDetail( Transaction transactionDetail )

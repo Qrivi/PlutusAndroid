@@ -182,19 +182,12 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback
 
             Date timestamp = transaction.getTimestamp();
 
-            try
-            {
-                //TODO add user pref for 24H or AM/PM
+            //TODO add user pref for 24H or AM/PM
 
-                String date = DateUtil.toTime( timestamp );
-                String time = DateUtil.toDate( timestamp );
+            String date = DateUtil.toTime( timestamp );
+            String time = DateUtil.toDate( timestamp );
 
-                mDate.setText( getString( R.string.on_timestamp, date, time ) );
-            } catch ( Exception e )
-            {
-                e.printStackTrace();
-                // onmogelijk hier te geraken
-            }
+            mDate.setText( getString( R.string.on_timestamp, date, time ) );
 
             mDescription.setText( Html.fromHtml( transaction.getDescription() ) );
         }

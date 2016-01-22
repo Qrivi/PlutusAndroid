@@ -2,10 +2,8 @@ package be.plutus.android.application;
 
 import be.plutus.android.R;
 
-/**
- * Created by Krivi on 28/12/15.
- */
-public enum Window{
+public enum Window
+{
     CREDIT( R.string.credit, 0, "credit" ),
     TRANSACTIONS( R.string.transactions, 1, "transactions" ),
     SETTINGS( R.string.settings, 2, "settings" );
@@ -14,22 +12,34 @@ public enum Window{
     private int pos;
     private String origin;
 
-    Window( int id, int pos, String origin ){
+    Window( int id, int pos, String origin )
+    {
         this.id = id;
         this.pos = pos;
         this.origin = origin;
     }
 
-    public int getId(){
+    public int getId()
+    {
         return id;
     }
 
-    public int getPos(){
+    public int getPos()
+    {
         return pos;
     }
 
     @Override
-    public String toString(){
+    public String toString()
+    {
         return origin;
+    }
+
+    public static Window getByOrigin( String origin )
+    {
+        for ( Window window : values() )
+            if ( window.origin.equals( origin ) )
+                return window;
+        return null;
     }
 }

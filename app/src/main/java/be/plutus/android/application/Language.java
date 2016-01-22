@@ -51,4 +51,12 @@ public enum Language
     {
         return locale;
     }
+
+    public static Language getByTag( String tag )
+    {
+        for ( Language language : values() )
+            if ( language.tag.equals( tag ) )
+                return language;
+        return null;
+    }
 }

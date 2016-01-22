@@ -55,6 +55,4 @@ public class BaseDialog extends android.support.v4.app.DialogFragment implements
         this.message = message;
     }
 
-
-
 }

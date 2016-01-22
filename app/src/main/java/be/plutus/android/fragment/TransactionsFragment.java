@@ -22,6 +22,8 @@ import be.plutus.android.view.TransactionsOnClickListener;
 import be.plutus.android.view.TransactionsOnScrollListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +32,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TransactionsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, TransactionsOnClickListener{
+public class TransactionsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, TransactionsOnClickListener
+{
 
     @Bind( R.id.swipeRefreshTransactions )
     SwipeRefreshLayout mSwipeRefresh;
@@ -44,12 +47,14 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
     private LinearLayoutManager linearLayoutManager;
     private int set;
 
-    public TransactionsFragment(){
+    public TransactionsFragment()
+    {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ){
+    public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
+    {
 
         final View view = inflater.inflate( R.layout.fragment_transactions, container, false );
         ButterKnife.bind( this, view );
@@ -63,10 +68,7 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
         mRecycler.setLayoutManager( linearLayoutManager );
 
         mSwipeRefresh.setOnRefreshListener( this );
-        mSwipeRefresh.setColorSchemeResources(
-                R.color.ucll_dark_blue,
-                R.color.ucll_light_blue,
-                R.color.ucll_pink );
+        mSwipeRefresh.setColorSchemeResources( R.color.ucll_dark_blue, R.color.ucll_light_blue, R.color.ucll_pink );
 
         scrollListener = getOnScrollListener( linearLayoutManager );
         mRecycler.addOnScrollListener( scrollListener );
@@ -75,16 +77,21 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
         return view;
     }
 
-    private TransactionsOnScrollListener getOnScrollListener( LinearLayoutManager linearLayoutManager ){
+    private TransactionsOnScrollListener getOnScrollListener( LinearLayoutManager linearLayoutManager )
+    {
 
-        return new TransactionsOnScrollListener( linearLayoutManager ){
+        return new TransactionsOnScrollListener( linearLayoutManager )
+        {
             @Override
-            public void onLoadMore( int current_set ){
-                if( app.isNetworkAvailable() ){
+            public void onLoadMore( int current_set )
+            {
+                if ( app.isNetworkAvailable() )
+                {
                     //Message.toast( getContext(), "loading set " + current_set );
                     List<Transaction> newTransactions = app.getTransactionsSet( current_set );
 
-                    if( newTransactions != null ){
+                    if ( newTransactions != null )
+                    {
                         List<Transaction> updatedList = new LinkedList<>();
                         updatedList.addAll( transactions );
                         updatedList.addAll( newTransactions );
@@ -98,14 +105,17 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
     }
 
     @Override
-    public void onRefresh(){
-        if( app.isNetworkAvailable() ){
+    public void onRefresh()
+    {
+        if ( app.isNetworkAvailable() )
+        {
             set = 0;
             main.fetchTransactionsData();
             mRecycler.removeOnScrollListener( scrollListener );
             scrollListener = getOnScrollListener( linearLayoutManager );
             mRecycler.addOnScrollListener( scrollListener );
-        }else{
+        } else
+        {
             Message.snack( main.mDrawerLayout, getString( R.string.no_internet_connection ) );
             mSwipeRefresh.setRefreshing( false );
         }
@@ -113,7 +123,8 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
 
 
     @Override
-    public void updateView(){
+    public void updateView()
+    {
         transactions = app.getTransactionsSet( set );
         adapter.setRowData( transactions );
 
@@ -124,13 +135,15 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
         //Message.toast( app.getApplicationContext(), transactions.size() + " loads" );
     }
 
-    public void filterTransactions( String filter ){
-        List<Transaction> filteredList = new LinkedList<>();
+    public void filterTransactions( String filter )
+    {
         CharSequence f = filter.toLowerCase();
 
-        for( Transaction t : transactions )
-            if( t.getTitle().toLowerCase().contains( f ) )
-                filteredList.add( t );
+        List<Transaction> filteredList = Stream.of( transactions )
+                .filter( t -> t.getTitle()
+                        .toLowerCase()
+                        .contains( f ) )
+                .collect( Collectors.toList() );
 
         main.mDrawerLayout.setDrawerLockMode( DrawerLayout.LOCK_MODE_LOCKED_CLOSED );
         mSwipeRefresh.setEnabled( false );
@@ -138,7 +151,8 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
     }
 
     @Override
-    public void onTransactionClicked( View view, Transaction transaction ){
+    public void onTransactionClicked( View view, Transaction transaction )
+    {
         app.setTransactionDetail( transaction );
         // startActivity( new Intent( getContext(), DetailActivity.class ));
 
@@ -154,10 +168,7 @@ public class TransactionsFragment extends BaseFragment implements SwipeRefreshLa
         Pair<View, String> month = Pair.create( smallDateMonth, "transition_date_month" );
 
         Intent intent = new Intent( getContext(), DetailActivity.class );
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                main,
-                holder, day, month
-        );
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation( main, holder, day, month );
 
         main.startActivity( intent, options.toBundle() );
         //main.overridePendingTransition( R.anim.pull_up, R.anim.push_out );

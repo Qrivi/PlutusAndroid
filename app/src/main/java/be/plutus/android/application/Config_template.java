@@ -2,12 +2,8 @@ package be.plutus.android.application;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by Krivi on 13/12/15.
- */
 public abstract class Config_template
 {
-
     public static String APP_URL_REPO = "https://qrivi.github.io/Plutus";
 
     public static String APP_URL = "http://www.plutus.be";

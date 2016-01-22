@@ -24,16 +24,18 @@ import java.util.Locale;
 /**
  * Created by Krivi on 23/12/15.
  */
-public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder>{
+public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder>
+{
 
-    private  TransactionsOnClickListener clickListener;
+    private TransactionsOnClickListener clickListener;
     private Context context;
     private LayoutInflater inflater;
     private List<RowData> rowData;
 
     private DecimalFormat df;
 
-    public TransactionsAdapter( Context context, List<Transaction> transactions, TransactionsOnClickListener clickListener ){
+    public TransactionsAdapter( Context context, List<Transaction> transactions, TransactionsOnClickListener clickListener )
+    {
         this.clickListener = clickListener;
         this.context = context;
         this.inflater = LayoutInflater.from( context );
@@ -42,7 +44,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         this.df = new DecimalFormat( "#0.00", DecimalFormatSymbols.getInstance( Locale.getDefault() ) );
     }
 
-    public void setRowData( List<Transaction> transactions ){
+    public void setRowData( List<Transaction> transactions )
+    {
         this.rowData = formatData( transactions );
         notifyDataSetChanged();
         // Log.v( "ADAPTER", "Loaded transactions: " + transactions.size() );
@@ -50,19 +53,22 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
     @Override
-    public TransactionViewHolder onCreateViewHolder( ViewGroup parent, int viewType ){
+    public TransactionViewHolder onCreateViewHolder( ViewGroup parent, int viewType )
+    {
         return new TransactionViewHolder( inflater.inflate( R.layout.row_transaction, parent, false ) );
     }
 
     @Override
-    public void onBindViewHolder( TransactionViewHolder holder, int position ){
+    public void onBindViewHolder( TransactionViewHolder holder, int position )
+    {
 
         RowData data = rowData.get( position );
 
-        if( position < 1)
+        if ( position < 1 )
             holder.mSeparator.setVisibility( View.GONE );
 
-        switch( data.type ){
+        switch ( data.type )
+        {
             case 0: // header
                 holder.mRowHeader.setVisibility( View.VISIBLE );
                 holder.mRowData.setVisibility( View.GONE );
@@ -77,13 +83,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                 Transaction t = data.transaction;
 
                 holder.mMonth.setText( t.getMonth( "short" ) );
-                holder.mDay.setText( t.getDay() + "" );
+                holder.mDay.setText( String.valueOf( t.getDay() ) );
 
                 holder.mTitle.setText( t.getTitle() );
-                holder.mLocation.setText( t.getLocation().getName() );
+                holder.mLocation.setText( t.getLocation()
+                        .getName() );
 
                 holder.setTransactionType( t.getType() );
-                holder.mAmount.setText( Config.API_DEFAULT_CURRENCY_SYMBOL + " " + df.format( t.getAmount() ) );
+                holder.mAmount.setText( String.format( "%s %s", Config.API_DEFAULT_CURRENCY_SYMBOL, df.format( t.getAmount() ) ) );
 
                 holder.transaction = t;
                 break;
@@ -91,16 +98,21 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount()
+    {
         return rowData.size();
     }
 
-    private List<RowData> formatData( List<Transaction> list ){
+    private List<RowData> formatData( List<Transaction> list )
+    {
         String currentMonth = "not set";
         List<RowData> currentData = new LinkedList<>();
 
-        for( Transaction t : list ){
-            if( !t.getMonth( "full" ).equals( currentMonth ) ){
+        for ( Transaction t : list )
+        {
+            if ( !t.getMonth( "full" )
+                    .equals( currentMonth ) )
+            {
                 currentMonth = t.getMonth( "full" );
                 currentData.add( new RowData( currentMonth + " " + t.getYear() ) );
             }
@@ -109,32 +121,38 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         return currentData;
     }
 
-    class RowData{
+    class RowData
+    {
         public String header;
         public Transaction transaction;
         public int index;
         public int type;
 
-        public RowData( String header ){
+        public RowData( String header )
+        {
             this.header = capitalize( header );
             this.index = -1;
             this.type = 0;
         }
 
-        public RowData( Transaction transaction, int index ){
+        public RowData( Transaction transaction, int index )
+        {
             this.transaction = transaction;
             this.index = index;
             this.type = 1;
         }
 
-        private String capitalize( String original ){
-            if( original == null || original.length() == 0 )
+        private String capitalize( String original )
+        {
+            if ( original == null || original.length() == 0 )
                 return original;
-            return original.substring( 0, 1 ).toUpperCase() + original.substring( 1 );
+            return original.substring( 0, 1 )
+                    .toUpperCase() + original.substring( 1 );
         }
     }
 
-    class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
 
         @Bind( R.id.tr_rowHeader )
         LinearLayout mRowHeader;
@@ -168,14 +186,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
         public Transaction transaction;
 
-        public TransactionViewHolder( View view ){
+        public TransactionViewHolder( View view )
+        {
             super( view );
             ButterKnife.bind( this, view );
             mRowData.setOnClickListener( this );
         }
 
-        public void setTransactionType( String transactionType ){
-            switch( transactionType ){
+        public void setTransactionType( String transactionType )
+        {
+            switch ( transactionType )
+            {
                 case "expense":
                     mAmount.setTextColor( ContextCompat.getColor( context, R.color.transaction_expense ) );
                     break;
@@ -186,8 +207,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         }
 
         @Override
-        public void onClick( View view ){
-            if( transaction != null )
+        public void onClick( View view )
+        {
+            if ( transaction != null )
                 clickListener.onTransactionClicked( view, transaction );
         }
     }
