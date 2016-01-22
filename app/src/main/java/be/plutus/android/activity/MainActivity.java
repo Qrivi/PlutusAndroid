@@ -17,25 +17,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import be.plutus.android.R;
-import be.plutus.android.application.Config;
 import be.plutus.android.application.Window;
 import be.plutus.android.fragment.BaseFragment;
 import be.plutus.android.fragment.CreditFragment;
 import be.plutus.android.fragment.SettingsFragment;
 import be.plutus.android.fragment.TransactionsFragment;
-import be.plutus.android.network.volley.VolleyCallback;
+import be.plutus.android.model.User;
+import be.plutus.android.network.retrofit.RESTService;
+import be.plutus.android.network.retrofit.model.Credit;
+import be.plutus.android.network.retrofit.model.meta.DefaultMeta;
+import be.plutus.android.network.retrofit.response.CreditResponse;
+import be.plutus.android.network.retrofit.response.TransactionsResponse;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.android.volley.VolleyError;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener
+{
 
     @Bind( R.id.wrapperMain )
     public DrawerLayout mDrawerLayout;
@@ -53,7 +55,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     BaseFragment currentFragment;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ){
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         this.setContentView( R.layout.activity_main );
         ButterKnife.bind( this );
@@ -61,12 +64,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setSupportActionBar( mToolbar );
         setFragment( app.getHomeScreen() );
 
-        mDrawerToggle = new ActionBarDrawerToggle( this, mDrawerLayout, mToolbar, R.string.open_drawer, R.string.close_drawer ){
-            public void onDrawerClosed( View view ){
+        mDrawerToggle = new ActionBarDrawerToggle( this, mDrawerLayout, mToolbar, R.string.open_drawer, R.string.close_drawer )
+        {
+            public void onDrawerClosed( View view )
+            {
                 super.onDrawerClosed( view );
             }
 
-            public void onDrawerOpened( View drawerView ){
+            public void onDrawerOpened( View drawerView )
+            {
                 super.onDrawerOpened( drawerView );
             }
         };
@@ -76,73 +82,88 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mNavigationView.setNavigationItemSelectedListener( this );
 
         View headerView = mNavigationView.getHeaderView( 0 );
-        TextView lbl_studentId = (TextView)headerView.findViewById( R.id.lbl_studentId );
-        lbl_studentId.setText( app.getCurrentUser().getStudentId() );
-        TextView lbl_studentName = (TextView)headerView.findViewById( R.id.lbl_studentName );
-        lbl_studentName.setText( app.getCurrentUser().getFirstName() + " " + app.getCurrentUser().getLastName() );
+        TextView lbl_studentId = (TextView) headerView.findViewById( R.id.lbl_studentId );
+        lbl_studentId.setText( app.getCurrentUser()
+                .getStudentId() );
+        TextView lbl_studentName = (TextView) headerView.findViewById( R.id.lbl_studentName );
+        lbl_studentName.setText( String.format( "%s %s", app.getCurrentUser()
+                .getFirstName(), app.getCurrentUser()
+                .getLastName() ) );
 
-        if( app.isNewInstallation() )
+        if ( app.isNewInstallation() )
             mDrawerLayout.openDrawer( GravityCompat.START );
 
-        if( app.isDatabaseIncomplete() )
+        if ( app.isDatabaseIncomplete() )
             Message.snack( mDrawerLayout, getString( R.string.database_setting_up ) );
 
         canConnectToInternet();
     }
 
     @Override
-    public void onResume(){
+    public void onResume()
+    {
         super.onResume();
 
-        if( getIntent().getStringExtra( "localization" ) != null ){
+        if ( getIntent().getStringExtra( "localization" ) != null )
+        {
             Log.i( "Localization", "Application Locale was updated" );
             setFragment( Window.SETTINGS );
         }
 
-        if( app.fetchRequired() ){
+        if ( app.fetchRequired() )
+        {
             fetchAllData();
             Log.i( "Data status", "outdated -- fetching..." );
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu( Menu menu ){
+    public boolean onCreateOptionsMenu( Menu menu )
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.mToolbarMenu = menu;
         getMenuInflater().inflate( R.menu.menu_main, menu );
 
-        SearchView searchView = (SearchView)MenuItemCompat.getActionView( mToolbarMenu.findItem( R.id.menu_search ) );
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView( mToolbarMenu.findItem( R.id.menu_search ) );
         searchView.setQueryHint( getString( R.string.find_a_transaction ) );
         searchView.setSubmitButtonEnabled( false );
 
-        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener(){
+        searchView.setOnQueryTextListener( new SearchView.OnQueryTextListener()
+        {
             @Override
-            public boolean onQueryTextSubmit( String query ){
+            public boolean onQueryTextSubmit( String query )
+            {
                 // filter alle transacties ooit
                 // TODO niet in versie voor Vogels
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange( String text ){
-                if( currentFragment instanceof TransactionsFragment ){
-                    TransactionsFragment fragment = (TransactionsFragment)currentFragment;
+            public boolean onQueryTextChange( String text )
+            {
+                if ( currentFragment instanceof TransactionsFragment )
+                {
+                    TransactionsFragment fragment = (TransactionsFragment) currentFragment;
                     fragment.filterTransactions( text );
                 }
                 return false;
             }
         } );
-        searchView.addOnAttachStateChangeListener( new View.OnAttachStateChangeListener(){
+        searchView.addOnAttachStateChangeListener( new View.OnAttachStateChangeListener()
+        {
             @Override
-            public void onViewDetachedFromWindow( View arg0 ){
-                if( currentFragment instanceof TransactionsFragment ){
-                    TransactionsFragment fragment = (TransactionsFragment)currentFragment;
+            public void onViewDetachedFromWindow( View arg0 )
+            {
+                if ( currentFragment instanceof TransactionsFragment )
+                {
+                    TransactionsFragment fragment = (TransactionsFragment) currentFragment;
                     fragment.updateView();
                 }
             }
 
             @Override
-            public void onViewAttachedToWindow( View arg0 ){
+            public void onViewAttachedToWindow( View arg0 )
+            {
                 // search was opened
             }
         } );
@@ -152,8 +173,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public boolean onOptionsItemSelected( MenuItem item ){
-        if( item.getItemId() == R.id.menu_filter ){
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        if ( item.getItemId() == R.id.menu_filter )
+        {
             // TODO filters
             Message.toast( this, getString( R.string.not_in_beta ) );
         }
@@ -162,19 +185,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public void onBackPressed(){
-        if( mToolbar.getTitle().toString().equals( getString( app.getHomeScreen().getId() ) ) )
+    public void onBackPressed()
+    {
+        if ( mToolbar.getTitle()
+                .toString()
+                .equals( getString( app.getHomeScreen()
+                        .getId() ) ) )
             finish();
         else
             setFragment( app.getHomeScreen() );
     }
 
     @Override
-    public boolean onNavigationItemSelected( MenuItem item ){
+    public boolean onNavigationItemSelected( MenuItem item )
+    {
 
         // if user taps active item, no new fragments need to load
-        if( !item.isChecked() ){
-            switch( item.getItemId() ){
+        if ( !item.isChecked() )
+        {
+            switch ( item.getItemId() )
+            {
                 case R.id.navigation_signout:
                     logout();
                     return true;
@@ -194,12 +224,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    public void setFragment( Window window ){
+    public void setFragment( Window window )
+    {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction switcher = manager.beginTransaction();
         int nav = 0;
 
-        switch( window.getPos() ){
+        switch ( window.getPos() )
+        {
             case 0:
                 nav = R.id.navigation_credit;
                 currentFragment = new CreditFragment();
@@ -217,22 +249,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setMenuOptions( window );
         switcher.replace( R.id.wrapperFragment, currentFragment );
 
-        if( nav != 0 )
-            mNavigationView.getMenu().findItem( nav ).setChecked( true );
-        if( getSupportActionBar() != null )
+        if ( nav != 0 )
+            mNavigationView.getMenu()
+                    .findItem( nav )
+                    .setChecked( true );
+        if ( getSupportActionBar() != null )
             getSupportActionBar().setTitle( getString( window.getId() ) );
 
         mToolbar.setTitle( getString( window.getId() ) );
         switcher.commit();
     }
 
-    private void setMenuOptions( Window window ){
+    private void setMenuOptions( Window window )
+    {
 
-        if( mToolbarMenu != null ){
+        if ( mToolbarMenu != null )
+        {
             MenuItem search = mToolbarMenu.findItem( R.id.menu_filter );
             MenuItem filter = mToolbarMenu.findItem( R.id.menu_search );
 
-            switch( window.getPos() ){
+            switch ( window.getPos() )
+            {
                 case 1:
                     search.setVisible( true );
                     filter.setVisible( true );
@@ -245,39 +282,40 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    public void fetchAllData(){
-        if( canConnectToInternet() ){
+    public void fetchAllData()
+    {
+        if ( canConnectToInternet() )
+        {
             fetchCreditData();
             fetchTransactionsData();
         }
     }
 
-    public void fetchCreditData(){
+    public void fetchCreditData()
+    {
+        if ( canConnectToInternet() )
+        {
+            RESTService service = app.getRESTService();
 
-        if( canConnectToInternet() ){
-            Map<String, String> params = new HashMap<>();
-            params.put( "studentId", app.getCurrentUser().getStudentId() );
-            params.put( "password", app.getCurrentUser().getPassword() );
+            User current = app.getCurrentUser();
 
-            app.contactAPI( params, Config.API_ENDPOINT_CREDIT, new VolleyCallback(){
+            Call<CreditResponse> call = service.credit( current.getStudentId(), current.getPassword() );
+            call.enqueue( new Callback<CreditResponse>()
+            {
                 @Override
-                public void onSuccess( String response ){
-                    try{
-                        JSONObject meta = new JSONObject( response ).getJSONObject( "meta" );
-                        String fetchDate = meta.getString( "timestamp" );
+                public void onResponse( Response<CreditResponse> response, Retrofit retrofit )
+                {
+                    CreditResponse creditResponse = response.body();
+                    Credit credit = creditResponse.getData();
+                    DefaultMeta meta = creditResponse.getMeta();
 
-                        JSONObject data = new JSONObject( response ).getJSONObject( "data" );
-                        double credit = data.getDouble( "amount" );
-
-                        app.writeUserCredit( credit, fetchDate );
-                    }catch( JSONException e ){
-                        Message.obtrusive( app.getCurrentActivity(), getString( R.string.error_fetching_credit ) + e.getMessage() );
-                    }
+                    app.writeUserCredit( credit.getAmount(), meta.getTimestamp() );
                     updateFragment();
                 }
 
                 @Override
-                public void onFailure( VolleyError error ){
+                public void onFailure( Throwable t )
+                {
                     Message.obtrusive( app.getCurrentActivity(), getString( R.string.error_endpoint_credit ) );
                     updateFragment();
                 }
@@ -285,29 +323,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    public void fetchTransactionsData(){
+    public void fetchTransactionsData()
+    {
+        if ( canConnectToInternet() )
+        {
+            RESTService service = app.getRESTService();
 
-        if( canConnectToInternet() ){
-            Map<String, String> params = new HashMap<>();
-            params.put( "studentId", app.getCurrentUser().getStudentId() );
-            params.put( "password", app.getCurrentUser().getPassword() );
-            params.put( "page", "1" );
+            User current = app.getCurrentUser();
 
-            app.contactAPI( params, Config.API_ENDPOINT_TRANSACTIONS, new VolleyCallback(){
+            Call<TransactionsResponse> call = service.transactions( current.getStudentId(), current.getPassword(), 1 );
+            call.enqueue( new Callback<TransactionsResponse>()
+            {
                 @Override
-                public void onSuccess( String response ){
-                    try{
-                        JSONArray array = new JSONObject( response ).getJSONArray( "data" );
-                        app.writeTransactions( array );
-                        app.completeDatabase( 2 );
-                    }catch( JSONException e ){
-                        Message.obtrusive( app.getCurrentActivity(), getString( R.string.error_fetching_transactions ) + e.getMessage() );
-                    }
+                public void onResponse( Response<TransactionsResponse> response, Retrofit retrofit )
+                {
+                    TransactionsResponse transactionsResponse = response.body();
+
+                    app.writeTransactions( transactionsResponse.getData() );
+                    app.completeDatabase( 2 );
+
                     updateFragment();
                 }
 
                 @Override
-                public void onFailure( VolleyError error ){
+                public void onFailure( Throwable t )
+                {
                     Message.obtrusive( app.getCurrentActivity(), getString( R.string.error_endpoint_transactions ) );
                     updateFragment();
                 }
@@ -315,14 +355,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    public void updateFragment(){
+    public void updateFragment()
+    {
 
         currentFragment.updateView();
     }
 
-    private boolean canConnectToInternet(){
+    private boolean canConnectToInternet()
+    {
 
-        if( !app.isNetworkAvailable() ){
+        if ( !app.isNetworkAvailable() )
+        {
             Message.snack( mDrawerLayout, getString( R.string.no_internet_connection ) );
             return false;
         }
@@ -330,7 +373,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
-    private void logout(){
+    private void logout()
+    {
         app.logoutUser();
         startActivity( new Intent( app.getApplicationContext(), LoginActivity.class ) );
         finish();

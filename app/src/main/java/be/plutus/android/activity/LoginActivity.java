@@ -5,7 +5,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,7 +17,7 @@ import be.plutus.android.R;
 import be.plutus.android.application.Config;
 import be.plutus.android.network.retrofit.RESTService;
 import be.plutus.android.network.retrofit.model.Verify;
-import be.plutus.android.network.retrofit.response.GenericResponse;
+import be.plutus.android.network.retrofit.response.VerifyResponse;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -133,14 +132,13 @@ public class LoginActivity extends BaseActivity
 
         RESTService service = app.getRESTService();
 
-        Call<GenericResponse<Verify>> call = service.verify( studentId, password );
-        call.enqueue( new Callback<GenericResponse<Verify>>()
+        Call<VerifyResponse> call = service.verify( studentId, password );
+        call.enqueue( new Callback<VerifyResponse>()
         {
             @Override
-            public void onResponse( Response<GenericResponse<Verify>> response, Retrofit retrofit )
+            public void onResponse( Response<VerifyResponse> response, Retrofit retrofit )
             {
-                Log.d( "test", response.code() + "" );
-                GenericResponse<Verify> verifyResponse = response.body();
+                VerifyResponse verifyResponse = response.body();
                 Verify verify = verifyResponse.getData();
 
                 if ( verify.isValid() )

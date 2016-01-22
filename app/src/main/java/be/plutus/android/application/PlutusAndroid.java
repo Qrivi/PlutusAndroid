@@ -12,13 +12,14 @@ import be.plutus.android.model.Transaction;
 import be.plutus.android.model.User;
 import be.plutus.android.network.retrofit.RESTService;
 import be.plutus.android.network.retrofit.ServiceGenerator;
+import be.plutus.android.network.retrofit.response.TransactionsResponse;
 import be.plutus.android.network.volley.NetworkClient;
 import be.plutus.android.network.volley.VolleyCallback;
 import be.plutus.android.view.Message;
-import com.android.volley.VolleyError;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -205,22 +206,13 @@ public class PlutusAndroid extends Application
         loadConfiguration();
     }
 
-    public void writeUserCredit( double credit, String fetchDate )
+    public void writeUserCredit( double credit, Date date )
     {
-
-        try
-        {
-            Date date = format.parse( fetchDate );
-
-            this.user.setCredit( credit );
-            ioService.saveCredit( credit );
-            this.user.setFetchDate( date );
-            ioService.saveFetchDate( date );
-            loadData();
-        } catch ( ParseException e )
-        {
-            Message.obtrusive( currentActivity, getString( R.string.error_loading_data_into_app ) + e.getMessage() );
-        }
+        this.user.setCredit( credit );
+        ioService.saveCredit( credit );
+        this.user.setFetchDate( date );
+        ioService.saveFetchDate( date );
+        loadData();
     }
 
 
@@ -243,7 +235,6 @@ public class PlutusAndroid extends Application
     {
         return Config.APP_URL_REPO;
     }
-
 
     public String verifyStudentId( String studentId )
     {
@@ -353,9 +344,10 @@ public class PlutusAndroid extends Application
         networkClient.contactAPI( params, endpoint, callback );
     }
 
-    public boolean writeTransactions( JSONArray jsonTransactions )
+    // todo maybe rename retrofit Transaction because this is unreadable
+    public boolean writeTransactions( List<be.plutus.android.network.retrofit.model.Transaction> transactions )
     {
-        boolean writeSuccessful = ioService.writeTransactions( jsonTransactions );
+        boolean writeSuccessful = ioService.writeTransactions( transactions );
         loadData();
         return writeSuccessful;
     }
@@ -415,60 +407,41 @@ public class PlutusAndroid extends Application
 
     public void completeDatabase( final int page )
     {
-
         if ( isNetworkAvailable() )
         {
-            Map<String, String> params = new HashMap<>();
-            params.put( "studentId", getCurrentUser().getStudentId() );
-            params.put( "password", getCurrentUser().getPassword() );
+            RESTService service = getRESTService();
 
-            contactAPI( params, Config.API_ENDPOINT_TRANSACTIONS + "/" + page, new VolleyCallback()
+            User current = getCurrentUser();
+
+            Call<TransactionsResponse> call = service.transactions( current.getStudentId(), current.getPassword(), page );
+            call.enqueue( new Callback<TransactionsResponse>()
             {
                 @Override
-                public void onSuccess( String response )
+                public void onResponse( Response<TransactionsResponse> response, Retrofit retrofit )
                 {
-                    try
+                    TransactionsResponse transactionsResponse = response.body();
+                    List<be.plutus.android.network.retrofit.model.Transaction> transactions = transactionsResponse.getData();
+
+                    if ( transactions != null && writeTransactions( transactions ) && databaseIncomplete )
                     {
-                        JSONArray array = new JSONObject( response ).getJSONArray( "data" );
-                        if ( writeTransactions( array ) && databaseIncomplete )
-                        {
-                            int nextPage = page + 1;
-                            completeDatabase( nextPage );
-                            Log.v( "Completing database", "page is " + nextPage );
-                        } else
-                        {
-                            if ( currentActivity instanceof MainActivity )
-                            {
-                                MainActivity main = (MainActivity) currentActivity;
-                                Message.snack( main.mDrawerLayout, getString( R.string.database_updated ) );
-                            }
-                            //ioService.saveDatabaseIncomplete( databaseIncomplete = false );
-                            Log.i( "Data status", "refreshed -- saved to db (1)" );
-                            //return; // safety first
-                        }
-                    } catch ( JSONException e )
+                        int nextPage = page + 1;
+                        completeDatabase( nextPage );
+                        Log.v( "Completing database", "page is " + nextPage );
+                    } else
                     {
-                        try
+                        if ( currentActivity instanceof MainActivity )
                         {
-                            JSONObject obj = new JSONObject( response );
-                            if ( !obj.has( "data" ) )
-                                throw new JSONException( "Response did not contain any data" );
-                            if ( currentActivity instanceof MainActivity )
-                            {
-                                MainActivity main = (MainActivity) currentActivity;
-                                Message.snack( main.mDrawerLayout, getString( R.string.database_updated ) );
-                            }
-                            ioService.saveDatabaseIncomplete( databaseIncomplete = false );
-                            Log.i( "Data status", "refreshed -- saved to db (2)" );
-                        } catch ( JSONException f )
-                        {
-                            Message.obtrusive( getCurrentActivity(), getString( R.string.error_fetching_transactions ) + e.getMessage() );
+                            MainActivity main = (MainActivity) currentActivity;
+                            Message.snack( main.mDrawerLayout, getString( R.string.database_updated ) );
                         }
+                        //ioService.saveDatabaseIncomplete( databaseIncomplete = false );
+                        Log.i( "Data status", "refreshed -- saved to db (1)" );
+                        //return; // safety first
                     }
                 }
 
                 @Override
-                public void onFailure( VolleyError error )
+                public void onFailure( Throwable t )
                 {
                     Message.obtrusive( getCurrentActivity(), getString( R.string.error_endpoint_transactions ) );
                 }
