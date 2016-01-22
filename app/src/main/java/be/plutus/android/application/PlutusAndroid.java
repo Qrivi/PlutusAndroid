@@ -16,6 +16,8 @@ import be.plutus.android.network.retrofit.response.TransactionsResponse;
 import be.plutus.android.network.volley.NetworkClient;
 import be.plutus.android.network.volley.VolleyCallback;
 import be.plutus.android.view.Message;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -344,8 +346,7 @@ public class PlutusAndroid extends Application
         networkClient.contactAPI( params, endpoint, callback );
     }
 
-    // todo maybe rename retrofit Transaction because this is unreadable
-    public boolean writeTransactions( List<be.plutus.android.network.retrofit.model.Transaction> transactions )
+    public boolean writeTransactions( List<Transaction> transactions )
     {
         boolean writeSuccessful = ioService.writeTransactions( transactions );
         loadData();
@@ -409,9 +410,8 @@ public class PlutusAndroid extends Application
     {
         if ( isNetworkAvailable() )
         {
-            RESTService service = getRESTService();
-
             User current = getCurrentUser();
+            RESTService service = getRESTService();
 
             Call<TransactionsResponse> call = service.transactions( current.getStudentId(), current.getPassword(), page );
             call.enqueue( new Callback<TransactionsResponse>()
@@ -420,9 +420,12 @@ public class PlutusAndroid extends Application
                 public void onResponse( Response<TransactionsResponse> response, Retrofit retrofit )
                 {
                     TransactionsResponse transactionsResponse = response.body();
-                    List<be.plutus.android.network.retrofit.model.Transaction> transactions = transactionsResponse.getData();
 
-                    if ( transactions != null && writeTransactions( transactions ) && databaseIncomplete )
+                    List<Transaction> transactions = Stream.of( transactionsResponse.getData() )
+                            .map( be.plutus.android.network.retrofit.model.Transaction::convert )
+                            .collect( Collectors.toList() );
+
+                    if ( !transactions.isEmpty() && writeTransactions( transactions ) && databaseIncomplete )
                     {
                         int nextPage = page + 1;
                         completeDatabase( nextPage );

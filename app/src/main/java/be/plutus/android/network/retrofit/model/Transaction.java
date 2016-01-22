@@ -67,4 +67,9 @@ public class Transaction
         }
     }
 
+    public be.plutus.android.model.Transaction convert()
+    {
+        return new be.plutus.android.model.Transaction( getTimestamp(), getAmount(), getType(), details.getTitle(), details.getDescription(), getLocation() );
+    }
+
 }

@@ -22,6 +22,7 @@ import be.plutus.android.fragment.BaseFragment;
 import be.plutus.android.fragment.CreditFragment;
 import be.plutus.android.fragment.SettingsFragment;
 import be.plutus.android.fragment.TransactionsFragment;
+import be.plutus.android.model.Transaction;
 import be.plutus.android.model.User;
 import be.plutus.android.network.retrofit.RESTService;
 import be.plutus.android.network.retrofit.model.Credit;
@@ -31,10 +32,14 @@ import be.plutus.android.network.retrofit.response.TransactionsResponse;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -327,9 +332,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     {
         if ( canConnectToInternet() )
         {
-            RESTService service = app.getRESTService();
-
             User current = app.getCurrentUser();
+            RESTService service = app.getRESTService();
 
             Call<TransactionsResponse> call = service.transactions( current.getStudentId(), current.getPassword(), 1 );
             call.enqueue( new Callback<TransactionsResponse>()
@@ -339,7 +343,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 {
                     TransactionsResponse transactionsResponse = response.body();
 
-                    app.writeTransactions( transactionsResponse.getData() );
+                    List<Transaction> transactions = Stream.of( transactionsResponse.getData() )
+                            .map( be.plutus.android.network.retrofit.model.Transaction::convert )
+                            .collect( Collectors.toList() );
+
+                    app.writeTransactions( transactions );
                     app.completeDatabase( 2 );
 
                     updateFragment();

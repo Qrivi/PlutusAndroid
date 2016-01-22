@@ -145,29 +145,13 @@ public class IOService
         return spAdapter.getLastName();
     }
 
-    // todo maybe rename retrofit Transaction because this is unreadable
-    public boolean writeTransactions( List<be.plutus.android.network.retrofit.model.Transaction> transactions )
+    public boolean writeTransactions( List<Transaction> transactions )
     {
-        try
+        for ( Transaction transaction : transactions )
         {
-            Transaction t;
-            be.plutus.android.network.retrofit.model.Transaction.Details details;
-
-            for ( be.plutus.android.network.retrofit.model.Transaction transaction : transactions )
-            {
-                details = transaction.getDetails();
-
-                t = new Transaction( transaction.getTimestamp(), transaction.getAmount(), transaction.getType(), details.getTitle(), details.getDescription(), transaction.getLocation() );
-
-                if ( insertTransaction( t ) )
-                    return false;
-            }
-        } catch ( Exception e )
-        {
-            //TODO : write exception
-            e.printStackTrace();
+            if ( insertTransaction( transaction ) )
+                return false;
         }
-
         return true;
     }
 
