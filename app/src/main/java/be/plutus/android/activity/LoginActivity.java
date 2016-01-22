@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,19 +16,20 @@ import android.widget.TextView;
 import be.plutus.android.BuildConfig;
 import be.plutus.android.R;
 import be.plutus.android.application.Config;
-import be.plutus.android.network.volley.VolleyCallback;
+import be.plutus.android.network.retrofit.RESTService;
+import be.plutus.android.network.retrofit.model.Verify;
+import be.plutus.android.network.retrofit.response.GenericResponse;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.android.volley.VolleyError;
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity
+{
 
     @Bind( R.id.wrapperInput )
     LinearLayout mWrapperInput;
@@ -57,29 +59,35 @@ public class LoginActivity extends BaseActivity{
     boolean connected;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ){
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login );
         ButterKnife.bind( this );
 
-        if( app.isNewInstallation() && Config.APP_IS_BETA )
+        if ( app.isNewInstallation() && Config.APP_IS_BETA )
             Message.toast( this, BuildConfig.VERSION_NAME );
 
-        if( app.isUserSaved() ){
+        if ( app.isUserSaved() )
+        {
             initializeMainWindow();
-        }else{
+        } else
+        {
             initializeLoginWindow();
             checkConnectivity();
         }
     }
 
-    private void checkConnectivity(){
-        if( app.isNetworkAvailable() ){
+    private void checkConnectivity()
+    {
+        if ( app.isNetworkAvailable() )
+        {
             connected = true;
             mInfo.setText( "" );
             mSubmit.setText( R.string.sign_in );
             showError( "OK", "OK" );
-        }else{
+        } else
+        {
             connected = false;
             mInfo.setText( R.string.there_is_no_active_internet_connection );
             mSubmit.setText( R.string.try_again );
@@ -88,57 +96,66 @@ public class LoginActivity extends BaseActivity{
     }
 
     @OnClick( R.id.btn_info )
-    public void launchWebsite(){
-        startActivity(
-                new Intent( Intent.ACTION_VIEW ).setData(
-                        Uri.parse( Config.APP_URL + Config.APP_PRIVACY_POLICY ) ) );
+    public void launchWebsite()
+    {
+        startActivity( new Intent( Intent.ACTION_VIEW ).setData( Uri.parse( Config.APP_URL + Config.APP_PRIVACY_POLICY ) ) );
     }
 
     @OnClick( R.id.btn_submit )
-    public void verifyCredentials(){
-        if( !connected ){
+    public void verifyCredentials()
+    {
+        if ( !connected )
+        {
             checkConnectivity();
-        }else if( !busy ){
+        } else if ( !busy )
+        {
             busy = true;
 
-            String studentId = mStudentId.getText().toString().toLowerCase();
-            String password = mPassword.getText().toString();
+            String studentId = mStudentId.getText()
+                    .toString()
+                    .toLowerCase();
+            String password = mPassword.getText()
+                    .toString();
 
             String statusStudentId = app.verifyStudentId( studentId );
             String statusPassword = app.verifyPassword( password );
 
-            if( statusStudentId.equals( "OK" ) && statusPassword.equals( "OK" ) )
+            if ( statusStudentId.equals( "OK" ) && statusPassword.equals( "OK" ) )
                 verifyCredentials( studentId, password );
             else
                 showError( statusStudentId, statusPassword );
         }
     }
 
-    private void verifyCredentials( final String studentId, final String password ){
+    private void verifyCredentials( final String studentId, final String password )
+    {
         showFadeOut();
 
-        Map<String, String> params = new HashMap<>();
-        params.put( "studentId", studentId );
-        params.put( "password", password );
+        RESTService service = app.getRESTService();
 
-        app.contactAPI( params, Config.API_ENDPOINT_VERIFY, new VolleyCallback(){
+        Call<GenericResponse<Verify>> call = service.verify( studentId, password );
+        call.enqueue( new Callback<GenericResponse<Verify>>()
+        {
             @Override
-            public void onSuccess( String response ){
-                try{
-                    JSONObject data = new JSONObject( response ).getJSONObject( "data" );
-                    if( data.getBoolean( "valid" ) ){
-                        app.initializeUser( studentId, password, data.getString( "firstName" ), data.getString( "lastName" ) );
-                        initializeMainWindow();
-                    }else{
-                        showError( "OK", getString( R.string.password_is_incorrect ) );
-                    }
-                }catch( JSONException e ){
-                    e.printStackTrace();
+            public void onResponse( Response<GenericResponse<Verify>> response, Retrofit retrofit )
+            {
+                Log.d( "test", response.code() + "" );
+                GenericResponse<Verify> verifyResponse = response.body();
+                Verify verify = verifyResponse.getData();
+
+                if ( verify.isValid() )
+                {
+                    app.initializeUser( studentId, password, verify.getFirstName(), verify.getLastName() );
+                    initializeMainWindow();
+                } else
+                {
+                    showError( "OK", getString( R.string.password_is_incorrect ) );
                 }
             }
 
             @Override
-            public void onFailure( VolleyError error ){
+            public void onFailure( Throwable t )
+            {
                 Message.obtrusive( app.getCurrentActivity(), getString( R.string.error_endpoint_verify ) );
                 checkConnectivity();
                 mWrapperInput.startAnimation( aFadeIn );
@@ -147,11 +164,13 @@ public class LoginActivity extends BaseActivity{
         } );
     }
 
-    private void showFadeOut(){
+    private void showFadeOut()
+    {
         mWrapperInput.startAnimation( aFadeOut );
     }
 
-    private void showError( String errorStudentId, String errorPassword ){
+    private void showError( String errorStudentId, String errorPassword )
+    {
 
         mWrapperInput.startAnimation( aFadeIn );
 
@@ -159,31 +178,36 @@ public class LoginActivity extends BaseActivity{
         mPasswordStyle.setError( "" );
         mPassword.setText( "" );
 
-        if( !errorStudentId.equals( "OK" ) )
+        if ( !errorStudentId.equals( "OK" ) )
             mStudentIdStyle.setError( errorStudentId );
-        if( !errorPassword.equals( "OK" ) )
+        if ( !errorPassword.equals( "OK" ) )
             mPasswordStyle.setError( errorPassword );
 
         busy = false;
     }
 
-    private void initializeMainWindow(){
+    private void initializeMainWindow()
+    {
         app.loadData();
         startActivity( new Intent( this, MainActivity.class ) );
         finish();
     }
 
-    private void initializeLoginWindow(){
-        if( !app.getStudentId().equals( "" ) )
+    private void initializeLoginWindow()
+    {
+        if ( !app.getStudentId()
+                .equals( "" ) )
             mStudentId.setText( app.getStudentId() );
 
         aFadeIn = AnimationUtils.loadAnimation( app, R.anim.fade_in );
         aFadeOut = AnimationUtils.loadAnimation( app, R.anim.fade_out );
 
         mPasswordStyle.setTypeface( Typeface.SANS_SERIF );
-        mPassword.setOnEditorActionListener( new TextView.OnEditorActionListener(){
+        mPassword.setOnEditorActionListener( new TextView.OnEditorActionListener()
+        {
             @Override
-            public boolean onEditorAction( TextView v, int actionId, KeyEvent event ){
+            public boolean onEditorAction( TextView v, int actionId, KeyEvent event )
+            {
                 verifyCredentials();
                 return true;
             }

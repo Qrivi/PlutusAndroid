@@ -10,6 +10,8 @@ import be.plutus.android.activity.MainActivity;
 import be.plutus.android.io.IOService;
 import be.plutus.android.model.Transaction;
 import be.plutus.android.model.User;
+import be.plutus.android.network.retrofit.RESTService;
+import be.plutus.android.network.retrofit.ServiceGenerator;
 import be.plutus.android.network.volley.NetworkClient;
 import be.plutus.android.network.volley.VolleyCallback;
 import be.plutus.android.view.Message;
@@ -26,7 +28,8 @@ import java.util.*;
 /**
  * Created by Krivi on 09/12/15.
  */
-public class PlutusAndroid extends Application{
+public class PlutusAndroid extends Application
+{
 
     private static PlutusAndroid instance;
     private BaseActivity currentActivity;
@@ -53,7 +56,8 @@ public class PlutusAndroid extends Application{
     private int creditRepresentationMax;
 
     @Override
-    public void onCreate(){
+    public void onCreate()
+    {
         super.onCreate();
         instance = this;
         ioService = new IOService( getAppContext() );
@@ -66,11 +70,13 @@ public class PlutusAndroid extends Application{
         loadConfiguration();
     }
 
-    public Locale getDefaultLocale(){
+    public Locale getDefaultLocale()
+    {
         return defaultLocale;
     }
 
-    public int getAndroidApiVersion(){
+    public int getAndroidApiVersion()
+    {
         // TODO use this :)
         // in order to make the app work on 4.4.4 and below (our own code supports a wide variation of API levels and so
         // do the embedded libs) alternative layouts need to be inflated that don't use vector drawables (vectors are
@@ -78,14 +84,16 @@ public class PlutusAndroid extends Application{
         return androidApiVersion;
     }
 
-    private void loadConfiguration(){
+    private void loadConfiguration()
+    {
         gaugeValue = ioService.getGaugeValue();
         creditRepresentation = ioService.getCreditRepresentation();
         creditRepresentationMin = ioService.getCreditRepresentationMin();
         creditRepresentationMax = ioService.getCreditRepresentationMax();
         databaseIncomplete = ioService.isDatabaseIncomplete();
 
-        switch( ioService.getLanguageTag() ){
+        switch ( ioService.getLanguageTag() )
+        {
             case "en":
                 language = Language.ENGLISH;
                 break;
@@ -99,7 +107,8 @@ public class PlutusAndroid extends Application{
                 language = Language.DEFAULT;
         }
 
-        switch( ioService.getHomeScreen() ){
+        switch ( ioService.getHomeScreen() )
+        {
             case "settings":
                 homeScreen = Window.SETTINGS;
                 break;
@@ -113,78 +122,94 @@ public class PlutusAndroid extends Application{
 
     }
 
-    public static Context getAppContext(){
+    public static Context getAppContext()
+    {
         return instance.getApplicationContext();
     }
 
-    public void setHomeScreen( Window window ){
+    public void setHomeScreen( Window window )
+    {
         this.homeScreen = window;
         ioService.saveHomeScreen( window.toString() );
     }
 
-    public void setGaugeValue( float value ){
+    public void setGaugeValue( float value )
+    {
         this.gaugeValue = value;
         ioService.saveGaugeValue( value );
     }
 
-    public void setCreditRepresentation( boolean bool ){
+    public void setCreditRepresentation( boolean bool )
+    {
         this.creditRepresentation = bool;
         ioService.saveCreditRepresentation( bool );
     }
 
-    public void setCreditRepresentationMin( int value ){
-        if( value >= getCreditRepresentationMax() || value < 0 || value > 99 )
+    public void setCreditRepresentationMin( int value )
+    {
+        if ( value >= getCreditRepresentationMax() || value < 0 || value > 99 )
             value = 0;
         this.creditRepresentationMin = value;
         ioService.saveCreditRepresentationMin( value );
     }
 
-    public void setCreditRepresentationMax( int value ){
-        if( value <= getCreditRepresentationMin() || value < 0 || value > 99 )
+    public void setCreditRepresentationMax( int value )
+    {
+        if ( value <= getCreditRepresentationMin() || value < 0 || value > 99 )
             value = 100;
         this.creditRepresentationMax = value;
         ioService.saveCreditRepresentationMax( value );
     }
 
-    public void setLanguage( Language language ){
+    public void setLanguage( Language language )
+    {
         this.language = language;
         ioService.saveLanguageTag( language.getTag() );
     }
 
-    public Window getHomeScreen(){
+    public Window getHomeScreen()
+    {
         return homeScreen;
     }
 
-    public float getGaugeValue(){
+    public float getGaugeValue()
+    {
         return gaugeValue;
     }
 
-    public boolean getCreditRepresentation(){
+    public boolean getCreditRepresentation()
+    {
         return creditRepresentation;
     }
 
-    public int getCreditRepresentationMin(){
+    public int getCreditRepresentationMin()
+    {
         return creditRepresentationMin;
     }
 
-    public int getCreditRepresentationMax(){
+    public int getCreditRepresentationMax()
+    {
         return creditRepresentationMax;
     }
 
-    public Language getLanguage(){
+    public Language getLanguage()
+    {
         return language;
     }
 
 
-    public void initializeUser( String studentId, String password, String firstname, String lastname ){
+    public void initializeUser( String studentId, String password, String firstname, String lastname )
+    {
         this.user = new User( studentId, password, firstname, lastname );
         ioService.saveCredentials( getCurrentUser() );
         loadConfiguration();
     }
 
-    public void writeUserCredit( double credit, String fetchDate ){
+    public void writeUserCredit( double credit, String fetchDate )
+    {
 
-        try{
+        try
+        {
             Date date = format.parse( fetchDate );
 
             this.user.setCredit( credit );
@@ -192,136 +217,164 @@ public class PlutusAndroid extends Application{
             this.user.setFetchDate( date );
             ioService.saveFetchDate( date );
             loadData();
-        }catch( ParseException e ){
+        } catch ( ParseException e )
+        {
             Message.obtrusive( currentActivity, getString( R.string.error_loading_data_into_app ) + e.getMessage() );
         }
     }
 
 
-    public BaseActivity getCurrentActivity(){
+    public BaseActivity getCurrentActivity()
+    {
         return currentActivity;
     }
 
-    public void setCurrentActivity( BaseActivity activity ){
+    public void setCurrentActivity( BaseActivity activity )
+    {
         this.currentActivity = activity;
     }
 
-    public User getCurrentUser(){
+    public User getCurrentUser()
+    {
         return user;
     }
 
-    public String getProjectUrl(){
+    public String getProjectUrl()
+    {
         return Config.APP_URL_REPO;
     }
 
 
-    public String verifyStudentId( String studentId ){
-        if( currentActivity.getLocalClassName().equals( "activity.LoginActivity" ) ){
+    public String verifyStudentId( String studentId )
+    {
+        if ( currentActivity.getLocalClassName()
+                .equals( "activity.LoginActivity" ) )
+        {
 
-            if( studentId.equals( "" ) )
+            if ( studentId.equals( "" ) )
                 return getString( R.string.this_field_is_required );
-            else if( studentId.length() < 8 )
+            else if ( studentId.length() < 8 )
                 return getString( R.string.this_id_is_too_short );
-            else if( !studentId.toLowerCase().matches( "^[a-zA-Z][0-9]{7}$" ) )
+            else if ( !studentId.toLowerCase()
+                    .matches( "^[a-zA-Z][0-9]{7}$" ) )
                 return getString( R.string.this_id_does_not_exist );
 
             return "OK";
 
-        }else{
+        } else
+        {
             Log.e( "Plutus internal error", "Trying to verify credentials but user is not on LoginActivity." );
             return "";
         }
     }
 
-    public String verifyPassword( String password ){
-        if( currentActivity.getLocalClassName().equals( "activity.LoginActivity" ) ){
+    public String verifyPassword( String password )
+    {
+        if ( currentActivity.getLocalClassName()
+                .equals( "activity.LoginActivity" ) )
+        {
 
-            if( password.equals( "" ) )
+            if ( password.equals( "" ) )
                 return getString( R.string.this_field_is_required );
 
             return "OK";
 
-        }else{
+        } else
+        {
             Log.e( "Plutus internal error", "Trying to verify credentials but user is not in LoginActivity" );
             return "";
         }
     }
 
-    public boolean isUserSaved(){
+    public boolean isUserSaved()
+    {
 
         return ioService.isUserSaved();
     }
 
-    public boolean isNewInstallation(){
+    public boolean isNewInstallation()
+    {
         return ioService.isNewInstallation();
     }
 
-    public boolean isDatabaseIncomplete(){
+    public boolean isDatabaseIncomplete()
+    {
         return ioService.isDatabaseIncomplete();
     }
 
-    public void loadData(){
-        try{
-            user = new User(
-                    ioService.getStudentId(), ioService.getPassword(),
-                    ioService.getFirstName(), ioService.getLastName(),
-                    ioService.getCredit(), ioService.getFetchDate() );
+    public void loadData()
+    {
+        try
+        {
+            user = new User( ioService.getStudentId(), ioService.getPassword(), ioService.getFirstName(), ioService.getLastName(), ioService.getCredit(), ioService.getFetchDate() );
             transactions = ioService.getAllTransactions();
-            if( currentActivity instanceof MainActivity ){
-                MainActivity main = (MainActivity)currentActivity;
+            if ( currentActivity instanceof MainActivity )
+            {
+                MainActivity main = (MainActivity) currentActivity;
                 main.updateFragment();
             }
-        }catch( ParseException e ){
+        } catch ( ParseException e )
+        {
             Message.obtrusive( currentActivity, getString( R.string.error_loading_data_into_app ) + e.getMessage() );
         }
     }
 
-    public void logoutUser(){
+    public void logoutUser()
+    {
         ioService.cleanSharedPreferences();
         ioService.cleanDatabase();
         loadConfiguration();
     }
 
-    public void resetApp(){
+    public void resetApp()
+    {
         ioService.clearDatabase();
         ioService.clearSharedPreferences();
         loadConfiguration();
     }
 
-    public void resetDatabase(){
+    public void resetDatabase()
+    {
         ioService.cleanDatabase();
         ioService.saveDatabaseIncomplete( true );
         ioService.saveFetchDate( null );
         loadConfiguration();
     }
 
-    public boolean isNetworkAvailable(){
-        final ConnectivityManager connectivityManager = ( (ConnectivityManager)getAppContext().getSystemService( Context.CONNECTIVITY_SERVICE ) );
-        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    public boolean isNetworkAvailable()
+    {
+        final ConnectivityManager connectivityManager = ( (ConnectivityManager) getAppContext().getSystemService( Context.CONNECTIVITY_SERVICE ) );
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo()
+                .isConnected();
     }
 
-    public void contactAPI( Map<String, String> params, String endpoint, final VolleyCallback callback ){
+    public void contactAPI( Map<String, String> params, String endpoint, final VolleyCallback callback )
+    {
         networkClient.contactAPI( params, endpoint, callback );
     }
 
-    public boolean writeTransactions( JSONArray jsonTransactions ){
+    public boolean writeTransactions( JSONArray jsonTransactions )
+    {
         boolean writeSuccessful = ioService.writeTransactions( jsonTransactions );
         loadData();
         return writeSuccessful;
     }
 
-    public List<Transaction> getTransactions(){
+    public List<Transaction> getTransactions()
+    {
         return transactions;
     }
 
-    public List<Transaction> getTransactions( int entries ){
+    public List<Transaction> getTransactions( int entries )
+    {
         entries = entries > transactions.size() ? transactions.size() : entries;
         return transactions.subList( 0, entries );
     }
 
-    public List<Transaction> getTransactionsSet( int set ){
+    public List<Transaction> getTransactionsSet( int set )
+    {
         int start = set * Config.APP_DEFAULT_LIST_SIZE;
-        if( start > transactions.size() )
+        if ( start > transactions.size() )
             return null;
 
         int end = start + Config.APP_DEFAULT_LIST_SIZE < transactions.size() ? start + Config.APP_DEFAULT_LIST_SIZE : transactions.size();
@@ -329,11 +382,13 @@ public class PlutusAndroid extends Application{
         return transactions.subList( start, end );
     }
 
-    public boolean fetchRequired(){
+    public boolean fetchRequired()
+    {
         // if pauseTime was earlier than 1 hour ago
 
         Date pauseDate = ioService.getFetchDate();
-        if( pauseDate == null ){
+        if ( pauseDate == null )
+        {
             Log.i( "Data status", "empty preferences -- no data" );
             ioService.saveNewInstallation( false );
             return true;
@@ -353,54 +408,68 @@ public class PlutusAndroid extends Application{
         return now.after( cal.getTime() );
     }
 
-    public String getStudentId(){
+    public String getStudentId()
+    {
         return ioService.getStudentId();
     }
 
-    public void completeDatabase( final int page ){
+    public void completeDatabase( final int page )
+    {
 
-        if( isNetworkAvailable() ){
+        if ( isNetworkAvailable() )
+        {
             Map<String, String> params = new HashMap<>();
             params.put( "studentId", getCurrentUser().getStudentId() );
             params.put( "password", getCurrentUser().getPassword() );
 
-            contactAPI( params, Config.API_ENDPOINT_TRANSACTIONS + "/" + page, new VolleyCallback(){
+            contactAPI( params, Config.API_ENDPOINT_TRANSACTIONS + "/" + page, new VolleyCallback()
+            {
                 @Override
-                public void onSuccess( String response ){
-                    try{
+                public void onSuccess( String response )
+                {
+                    try
+                    {
                         JSONArray array = new JSONObject( response ).getJSONArray( "data" );
-                        if( writeTransactions( array ) && databaseIncomplete ){
+                        if ( writeTransactions( array ) && databaseIncomplete )
+                        {
                             int nextPage = page + 1;
                             completeDatabase( nextPage );
                             Log.v( "Completing database", "page is " + nextPage );
-                        }else{
-                            if( currentActivity instanceof MainActivity ){
-                                MainActivity main = (MainActivity)currentActivity;
+                        } else
+                        {
+                            if ( currentActivity instanceof MainActivity )
+                            {
+                                MainActivity main = (MainActivity) currentActivity;
                                 Message.snack( main.mDrawerLayout, getString( R.string.database_updated ) );
                             }
                             //ioService.saveDatabaseIncomplete( databaseIncomplete = false );
                             Log.i( "Data status", "refreshed -- saved to db (1)" );
                             //return; // safety first
                         }
-                    }catch( JSONException e ){
-                        try{
+                    } catch ( JSONException e )
+                    {
+                        try
+                        {
                             JSONObject obj = new JSONObject( response );
-                            if( !obj.has( "data" ) )
+                            if ( !obj.has( "data" ) )
                                 throw new JSONException( "Response did not contain any data" );
-                            if( currentActivity instanceof MainActivity ){
-                                MainActivity main = (MainActivity)currentActivity;
+                            if ( currentActivity instanceof MainActivity )
+                            {
+                                MainActivity main = (MainActivity) currentActivity;
                                 Message.snack( main.mDrawerLayout, getString( R.string.database_updated ) );
                             }
                             ioService.saveDatabaseIncomplete( databaseIncomplete = false );
                             Log.i( "Data status", "refreshed -- saved to db (2)" );
-                        }catch( JSONException f ){
+                        } catch ( JSONException f )
+                        {
                             Message.obtrusive( getCurrentActivity(), getString( R.string.error_fetching_transactions ) + e.getMessage() );
                         }
                     }
                 }
 
                 @Override
-                public void onFailure( VolleyError error ){
+                public void onFailure( VolleyError error )
+                {
                     Message.obtrusive( getCurrentActivity(), getString( R.string.error_endpoint_transactions ) );
                 }
             } );
@@ -408,11 +477,21 @@ public class PlutusAndroid extends Application{
 
     }
 
-    public void setTransactionDetail( Transaction transactionDetail ){
+    public void setTransactionDetail( Transaction transactionDetail )
+    {
         this.transactionDetail = transactionDetail;
     }
 
-    public Transaction getTransactionDetail(){
+    public Transaction getTransactionDetail()
+    {
         return transactionDetail;
+    }
+
+    /**
+     * @return An instance of the RESTService
+     */
+    public RESTService getRESTService()
+    {
+        return ServiceGenerator.create( RESTService.class );
     }
 }
