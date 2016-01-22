@@ -14,7 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import be.plutus.android.R;
 import be.plutus.android.application.Config;
+import be.plutus.android.model.Location;
 import be.plutus.android.model.Transaction;
+import be.plutus.android.util.DateUtil;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,11 +32,11 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
+public class DetailActivity extends BaseActivity implements OnMapReadyCallback
+{
 
     @Bind( R.id.wrapperSlide )
     SlidingUpPanelLayout mSlide;
@@ -73,14 +75,13 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
     private Transaction transaction;
 
     private DecimalFormat df;
-    private SimpleDateFormat sdfTime;
-    private SimpleDateFormat sdfDate;
 
     int colorLight, colorLightBlue, colorCurrent;
     boolean sliding;
 
     @Override
-    protected void onCreate( Bundle savedInstanceState ){
+    protected void onCreate( Bundle savedInstanceState )
+    {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_detail );
         ButterKnife.bind( this );
@@ -92,33 +93,40 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
         this.colorCurrent = colorLightBlue;
 
         setSupportActionBar( mToolbar );
-        if( getSupportActionBar() != null )
+        if ( getSupportActionBar() != null )
             getSupportActionBar().setDisplayHomeAsUpEnabled( true );
         getSupportActionBar().setDisplayShowHomeEnabled( true );
 
-        mSlide.setPanelSlideListener( new SlidingUpPanelLayout.PanelSlideListener(){
-            public void onPanelSlide( View panel, float slideOffset ){
-                if( !sliding && colorCurrent == colorLight ){
+        mSlide.setPanelSlideListener( new SlidingUpPanelLayout.PanelSlideListener()
+        {
+            public void onPanelSlide( View panel, float slideOffset )
+            {
+                if ( !sliding && colorCurrent == colorLight )
+                {
                     colorizeDragZone( colorLightBlue );
                     sliding = true;
                 }
             }
 
-            public void onPanelAnchored( View panel ){
+            public void onPanelAnchored( View panel )
+            {
             }
 
-            public void onPanelHidden( View panel ){
+            public void onPanelHidden( View panel )
+            {
             }
 
-            public void onPanelCollapsed( View panel ){
-                if( colorCurrent == colorLightBlue )
+            public void onPanelCollapsed( View panel )
+            {
+                if ( colorCurrent == colorLightBlue )
                     colorizeDragZone( colorLight );
                 moveMapIfCollapsed();
                 sliding = false;
             }
 
-            public void onPanelExpanded( View panel ){
-                if( colorCurrent == colorLight )
+            public void onPanelExpanded( View panel )
+            {
+                if ( colorCurrent == colorLight )
                     colorizeDragZone( colorLightBlue );
                 moveMapIfExpanded();
                 sliding = false;
@@ -127,15 +135,18 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume()
+    {
         super.onResume();
         setUpView();
         setUpMap();
     }
 
     @Override
-    public boolean onOptionsItemSelected( MenuItem item ){
-        switch( item.getItemId() ){
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        switch ( item.getItemId() )
+        {
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -144,17 +155,20 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
         }
     }
 
-    private void setUpView(){
+    private void setUpView()
+    {
         this.transaction = app.getTransactionDetail();
-        if( transaction != null ){
+        if ( transaction != null )
+        {
+            Location location = transaction.getLocation();
 
-            latLng = new LatLng( transaction.getLocation().getLat(), transaction.getLocation().getLng() );
-
+            latLng = new LatLng( location.getLat(), location.getLng() );
             mTitle.setText( transaction.getTitle() );
-            mLocation.setText( transaction.getLocation().getName() );
-            mAmount.setText( Config.API_DEFAULT_CURRENCY_SYMBOL + " " + df.format( transaction.getAmount() ) );
+            mLocation.setText( location.getName() );
+            mAmount.setText( String.format( "%s %s", Config.API_DEFAULT_CURRENCY_SYMBOL, df.format( transaction.getAmount() ) ) );
 
-            switch( transaction.getType() ){
+            switch ( transaction.getType() )
+            {
                 case "expense":
                     mAmount.setTextColor( ContextCompat.getColor( this, R.color.transaction_expense ) );
                     break;
@@ -163,24 +177,21 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
                     break;
             }
 
-            mDay.setText( transaction.getDay() + "" );
+            mDay.setText( String.valueOf( transaction.getDay() ) );
             mMonth.setText( transaction.getMonth( "short" ) );
 
             Date timestamp = transaction.getTimestamp();
 
-            try{
+            try
+            {
                 //TODO add user pref for 24H or AM/PM
-                sdfTime = new SimpleDateFormat( "HH:mm", Locale.getDefault() );
-                sdfDate = new SimpleDateFormat( "EEEE d MMMM yyyy", Locale.getDefault() );
-                if( Locale.getDefault().toString().equals( "en_US" ) )
-                    sdfDate = new SimpleDateFormat( "EEEE MMMM d, yyyy", Locale.US );
-                // in US English day is usually put after month
 
-                String date = sdfDate.format( timestamp );
-                String time = sdfTime.format( timestamp );
+                String date = DateUtil.toTime( timestamp );
+                String time = DateUtil.toDate( timestamp );
 
                 mDate.setText( getString( R.string.on_timestamp, date, time ) );
-            }catch( Exception e ){
+            } catch ( Exception e )
+            {
                 e.printStackTrace();
                 // onmogelijk hier te geraken
             }
@@ -189,72 +200,76 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback{
         }
     }
 
-    private void setUpMap(){
-        if( map == null ){
-            MapFragment mapFragment = (MapFragment)getFragmentManager().findFragmentById( R.id.map );
+    private void setUpMap()
+    {
+        if ( map == null )
+        {
+            MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById( R.id.map );
             mapFragment.getMapAsync( this );
         }
     }
 
     @Override
-    public void onMapReady( GoogleMap map ){
+    public void onMapReady( GoogleMap map )
+    {
         this.map = map;
 
-        if( transaction == null ){
+        if ( transaction == null )
+        {
             Message.obtrusive( this, getString( R.string.error_loading_transaction ) );
-        }else{
-            map.addMarker( new MarkerOptions()
-                    .position( latLng )
+        } else
+        {
+            map.addMarker( new MarkerOptions().position( latLng )
                     .icon( BitmapDescriptorFactory.fromResource( R.drawable.ic_location_on_pink_48dp ) ) );
 
-            map.getUiSettings().setMapToolbarEnabled( false );
+            map.getUiSettings()
+                    .setMapToolbarEnabled( false );
 
             map.moveCamera( CameraUpdateFactory.newLatLngZoom( Config.APP_DEFAULT_MAP_LATLNG, Config.APP_DEFAULT_MAP_ZOOM ) );
             moveMapIfExpanded();
         }
     }
 
-    private void moveMapIfCollapsed(){
-        if( map != null )
+    private void moveMapIfCollapsed()
+    {
+        if ( map != null )
             map.animateCamera( CameraUpdateFactory.newLatLngZoom( latLng, 15 ) );
     }
 
-    private void moveMapIfExpanded(){
-        if( map != null ){
+    private void moveMapIfExpanded()
+    {
+        if ( map != null )
+        {
             double lat = latLng.latitude - .004;
             double lng = latLng.longitude;
             map.animateCamera( CameraUpdateFactory.newLatLngZoom( new LatLng( lat, lng ), 15 ) );
         }
     }
 
-    private void colorizeDragZone( int color ){
-        ObjectAnimator colorFade = ObjectAnimator.ofObject(
-                mDragZone,
-                "backgroundColor",
-                new ArgbEvaluator(),
-                colorCurrent,
-                color
-        );
+    private void colorizeDragZone( int color )
+    {
+        ObjectAnimator colorFade = ObjectAnimator.ofObject( mDragZone, "backgroundColor", new ArgbEvaluator(), colorCurrent, color );
         colorFade.setDuration( 500 );
         colorFade.start();
         colorCurrent = color;
     }
 
     @OnClick( R.id.det_btnMaps )
-    public void launchMaps(){
-        if( transaction != null ){
-            Uri intentUri = Uri.parse( "geo:"
-                    + transaction.getLocation().getLat()
-                    + ","
-                    + transaction.getLocation().getLng()
-                    + "?q="
-                    + transaction.getLocation().getName()
-            );
+    public void launchMaps()
+    {
+        if ( transaction != null )
+        {
+            Uri intentUri = Uri.parse( "geo:" + transaction.getLocation()
+                    .getLat() + "," + transaction.getLocation()
+                    .getLng() + "?q=" + transaction.getLocation()
+                    .getName() );
             Intent mapIntent = new Intent( Intent.ACTION_VIEW, intentUri );
             // mapIntent.setPackage( "com.google.android.apps.maps" );
-            if( mapIntent.resolveActivity( getPackageManager() ) == null ){
+            if ( mapIntent.resolveActivity( getPackageManager() ) == null )
+            {
                 Message.obtrusive( this, getString( R.string.error_no_maps_app_installed ) );
-            }else{
+            } else
+            {
                 startActivity( mapIntent );
             }
         }

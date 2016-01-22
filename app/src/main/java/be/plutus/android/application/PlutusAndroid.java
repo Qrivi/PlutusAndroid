@@ -23,14 +23,9 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Created by Krivi on 09/12/15.
- */
 public class PlutusAndroid extends Application
 {
 
@@ -47,7 +42,6 @@ public class PlutusAndroid extends Application
 
     private IOService ioService;
     private NetworkClient networkClient;
-    DateFormat format;
 
     boolean databaseIncomplete;
 
@@ -65,7 +59,6 @@ public class PlutusAndroid extends Application
         instance = this;
         ioService = new IOService( getAppContext() );
         networkClient = new NetworkClient();
-        format = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ssZ", Locale.US );
 
         // get defaults
         defaultLocale = Locale.getDefault();
@@ -339,11 +332,6 @@ public class PlutusAndroid extends Application
         final ConnectivityManager connectivityManager = ( (ConnectivityManager) getAppContext().getSystemService( Context.CONNECTIVITY_SERVICE ) );
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo()
                 .isConnected();
-    }
-
-    public void contactAPI( Map<String, String> params, String endpoint, final VolleyCallback callback )
-    {
-        networkClient.contactAPI( params, endpoint, callback );
     }
 
     public boolean writeTransactions( List<Transaction> transactions )
