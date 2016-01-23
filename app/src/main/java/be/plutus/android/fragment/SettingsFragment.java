@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.plutus.android.R;
@@ -15,7 +14,6 @@ import be.plutus.android.activity.MainActivity;
 import be.plutus.android.application.Config;
 import be.plutus.android.application.Language;
 import be.plutus.android.application.Window;
-import be.plutus.android.dialog.BaseDialog;
 import be.plutus.android.dialog.ConfirmationDialog;
 import be.plutus.android.dialog.EditTextDialog;
 import be.plutus.android.dialog.RadioButtonDialog;
@@ -29,10 +27,7 @@ import butterknife.OnClick;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Jan on 27/12/2015.
- */
-public class SettingsFragment extends BaseFragment implements EditTextDialog.NoticeDialogListener
+public class SettingsFragment extends BaseFragment
 {
 
     @Bind( R.id.pref_credit_gaugeMinMaxWrapper )
@@ -120,22 +115,27 @@ public class SettingsFragment extends BaseFragment implements EditTextDialog.Not
     public void onGaugeSwitchChanged()
     {
         app.setCreditRepresentation( mCreditGaugeSwitch.isChecked() );
-        if ( mCreditGaugeSwitch.isChecked() )
-            mCreditMinMaxWrapper.startAnimation( expand );
-        else
-            mCreditMinMaxWrapper.startAnimation( collapse );
+        mCreditMinMaxWrapper.startAnimation( ( mCreditGaugeSwitch.isChecked() ) ? expand : collapse );
     }
 
     @OnClick( R.id.pref_credit_gaugeMinWrapper )
     public void onWrapperGaugeMinClicked()
     {
-        createEditTextDialog( getString( R.string.set_minimum ), getString( R.string.setting_minimum_message ) );
+        EditTextDialog dialog = EditTextDialog.create( getContext(), getString( R.string.set_minimum ), getString( R.string.setting_minimum_message ), value -> {
+            app.setCreditRepresentationMin( Integer.parseInt( value ) );
+            updateView();
+        } );
+        dialog.show( getFragmentManager(), getString( R.string.set_minimum ) );
     }
 
     @OnClick( R.id.pref_credit_gaugeMaxWrapper )
     public void onWrapperGaugeMaxClicked()
     {
-        createEditTextDialog( getString( R.string.set_maximum ), getString( R.string.settings_maximum_message ) );
+        EditTextDialog dialog = EditTextDialog.create( getContext(), getString( R.string.set_maximum ), getString( R.string.settings_maximum_message ), value -> {
+            app.setCreditRepresentationMax( Integer.parseInt( value ) );
+            updateView();
+        } );
+        dialog.show( getFragmentManager(), getString( R.string.set_maximum ) );
     }
 
     ////////////////////////////////////////
@@ -166,8 +166,20 @@ public class SettingsFragment extends BaseFragment implements EditTextDialog.Not
     @OnClick( R.id.pref_application_languageWrapper )
     public void onLanguageWrapperClicked()
     {
-        createRadioButtonDialog( getString( R.string.set_language ), getString( R.string.set_language_message ), app.getLanguage()
-                .getPos(), languages );
+        RadioButtonDialog dialog = RadioButtonDialog.create( getContext(), getString( R.string.set_language ), getString( R.string.set_language_message ), app.getLanguage()
+                .getPos(), languages, value -> {
+            Language language = Language.getByPos( value );
+            app.setLanguage( language );
+
+            Intent intent = new Intent( main, MainActivity.class );
+            intent.putExtra( "localization", "updated" );
+            intent.addFlags( Intent.FLAG_ACTIVITY_NO_ANIMATION );
+            startActivity( intent );
+
+            main.finish();
+            updateView();
+        } );
+        dialog.show( getFragmentManager(), getString( R.string.set_language ) );
     }
 
     ////////////////////////////////////////
@@ -179,138 +191,34 @@ public class SettingsFragment extends BaseFragment implements EditTextDialog.Not
     @OnClick( R.id.pref_application_homeScreenWrapper )
     public void onHomeScreenClicked()
     {
-        createRadioButtonDialog( getString( R.string.set_home_screen ), getString( R.string.set_home_screen_message ), app.getHomeScreen()
-                .getPos(), windows );
+        RadioButtonDialog dialog = RadioButtonDialog.create( getContext(), getString( R.string.set_home_screen ), getString( R.string.set_home_screen_message ), app.getHomeScreen()
+                .getPos(), windows, value -> {
+            Window window = Window.getByPos( value );
+            app.setHomeScreen( window );
+            updateView();
+        } );
+        dialog.show( getFragmentManager(), getString( R.string.set_language ) );
     }
 
     @OnClick( R.id.pref_application_buttonResetApplication )
     public void onResetApplicationButtonClicked()
     {
-        createConfirmationDialog( getString( R.string.reset_application ), getString( R.string.reset_warning ), true );
+        ConfirmationDialog dialog = ConfirmationDialog.create( getString( R.string.reset_application ), getString( R.string.reset_warning ), true, () -> {
+            app.resetApp();
+            ConfirmationDialog dialog2 = ConfirmationDialog.create( getString( R.string.reset_info_application ), getString( R.string.reset_info ), false, this::exitApplication );
+            dialog2.show( getFragmentManager(), getString( R.string.reset_info_application ) );
+        } );
+        dialog.show( getFragmentManager(), getString( R.string.reset_application ) );
     }
 
     @OnClick( R.id.pref_application_buttonResetDatabase )
     public void onResetDatabaseButtonClicked()
     {
-        createConfirmationDialog( getString( R.string.reset_info_database ), getString( R.string.reset_info ), false );
-    }
-
-
-    @Override
-    public void onDialogPositiveClick( BaseDialog dialog, int id )
-    {
-        if ( dialog.getType()
-                .equals( getString( R.string.set_minimum ) ) )
-        {
-            EditText edit = (EditText) dialog.getDialog()
-                    .findViewById( R.id.dialog_edit );
-            if ( !edit.getText()
-                    .toString()
-                    .equals( "" ) )
-                app.setCreditRepresentationMin( Integer.parseInt( edit.getText()
-                        .toString() ) );
-        } else if ( dialog.getType()
-                .equals( getString( R.string.set_maximum ) ) )
-        {
-            EditText edit = (EditText) dialog.getDialog()
-                    .findViewById( R.id.dialog_edit );
-            if ( !edit.getText()
-                    .toString()
-                    .equals( "" ) )
-                app.setCreditRepresentationMax( Integer.parseInt( edit.getText()
-                        .toString() ) );
-        } else if ( dialog.getType()
-                .equals( getString( R.string.set_language ) ) )
-        {
-            switch ( id )
-            {
-                case 0:
-                    app.setLanguage( Language.DEFAULT );
-                    break;
-                case 1:
-                    app.setLanguage( Language.ENGLISH );
-                    break;
-                case 2:
-                    app.setLanguage( Language.DUTCH );
-                    break;
-                case 3:
-                    app.setLanguage( Language.FRENCH );
-                    break;
-            }
-            dialog.getDialog()
-                    .cancel();
-
-            Intent intent = new Intent( main, MainActivity.class );
-            intent.putExtra( "localization", "updated" );
-            intent.addFlags( Intent.FLAG_ACTIVITY_NO_ANIMATION );
-            startActivity( intent );
-            main.finish();
-
-        } else if ( dialog.getType()
-                .equals( getString( R.string.set_home_screen ) ) )
-        {
-            switch ( id )
-            {
-                case 0:
-                    app.setHomeScreen( Window.CREDIT );
-                    break;
-                case 1:
-                    app.setHomeScreen( Window.TRANSACTIONS );
-                    break;
-                case 2:
-                    app.setHomeScreen( Window.SETTINGS );
-                    break;
-            }
-            dialog.getDialog()
-                    .cancel();
-        } else if ( dialog.getType()
-                .equals( getString( R.string.reset_application ) ) )
-        {
-            app.resetApp();
-            createConfirmationDialog( getString( R.string.reset_info_application ), getString( R.string.reset_info ), false );
-        } else if ( dialog.getType()
-                .equals( getString( R.string.reset_info_application ) ) )
-        {
-            exitApplication();
-        } else if ( dialog.getType()
-                .equals( getString( R.string.reset_info_database ) ) )
-        {
+        ConfirmationDialog dialog = ConfirmationDialog.create( getString( R.string.reset_info_database ), getString( R.string.reset_info ), () -> {
             app.resetDatabase();
             exitApplication();
-        }
-        updateView();
-    }
-
-    @Override
-    public void onDialogNegativeClick( BaseDialog dialog )
-    {
-        dialog.getDialog()
-                .cancel();
-    }
-
-    private void createEditTextDialog( String type, String message )
-    {
-        EditTextDialog dialog = EditTextDialog.newInstance( type, message );
-        dialog.setTargetFragment( this, 1 );
-        dialog.show( getFragmentManager(), type );
-    }
-
-    private void createConfirmationDialog( String type, String message, boolean isReset )
-    {
-        ConfirmationDialog dialog;
-        if ( isReset )
-            dialog = ConfirmationDialog.newInstance( type, message, isReset );
-        else
-            dialog = ConfirmationDialog.newInstance( type, message );
-        dialog.setTargetFragment( this, 1 );
-        dialog.show( getFragmentManager(), type );
-    }
-
-    private void createRadioButtonDialog( String type, String message, int currentId, List<Integer> options )
-    {
-        RadioButtonDialog dialog = RadioButtonDialog.newInstance( getContext(), type, message, currentId, options );
-        dialog.setTargetFragment( this, 1 );
-        dialog.show( getFragmentManager(), type );
+        } );
+        dialog.show( getFragmentManager(), getString( R.string.reset_info_database ) );
     }
 
     private void exitApplication()
@@ -318,6 +226,5 @@ public class SettingsFragment extends BaseFragment implements EditTextDialog.Not
         main.finish();
         System.exit( 0 );
     }
-
 
 }

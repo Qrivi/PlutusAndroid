@@ -52,6 +52,14 @@ public enum Language
         return locale;
     }
 
+    public static Language getByPos( int pos )
+    {
+        for ( Language language : values() )
+            if ( language.pos == pos )
+                return language;
+        return null;
+    }
+
     public static Language getByTag( String tag )
     {
         for ( Language language : values() )

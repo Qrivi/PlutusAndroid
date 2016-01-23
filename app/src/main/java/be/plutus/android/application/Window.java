@@ -35,6 +35,14 @@ public enum Window
         return origin;
     }
 
+    public static Window getByPos( int pos )
+    {
+        for ( Window window : values() )
+            if ( window.pos == pos )
+                return window;
+        return null;
+    }
+
     public static Window getByOrigin( String origin )
     {
         for ( Window window : values() )

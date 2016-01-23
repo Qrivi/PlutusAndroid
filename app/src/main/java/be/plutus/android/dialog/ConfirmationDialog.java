@@ -1,60 +1,71 @@
 package be.plutus.android.dialog;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import be.plutus.android.R;
 
-/**
- * Created by Jan on 28/12/2015.
- */
-public class ConfirmationDialog extends BaseDialog{
+public class ConfirmationDialog extends BaseDialog
+{
 
-    private boolean isReset;
+    private boolean reset;
+    private onPositiveListener listener;
 
-    public static ConfirmationDialog newInstance( String type, String message ){
-        return newInstance( type, message, false );
+    public static ConfirmationDialog create( String type, String message, onPositiveListener listener )
+    {
+        return create( type, message, false, listener );
     }
 
-    public static ConfirmationDialog newInstance( String type, String message, boolean isReset ){
+    public static ConfirmationDialog create( String type, String message, boolean reset, onPositiveListener listener )
+    {
         ConfirmationDialog dialog = new ConfirmationDialog();
-        dialog.setDialogType( type );
-        dialog.initializeMessage( message );
-        dialog.isReset = isReset;
+
+        dialog.setTitle( type );
+        dialog.setMessage( message );
+        dialog.setReset( reset );
+        dialog.setListener( listener );
+
         return dialog;
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog( Bundle savedInstanceState ){
+    public void setReset( boolean reset )
+    {
+        this.reset = reset;
+    }
 
+    public void setListener( onPositiveListener listener )
+    {
+        this.listener = listener;
+    }
+
+    @Override
+    public AlertDialog build()
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder( getActivity(), R.style.Plutus_Dialog );
 
-        if( isReset ){
-            setPositiveButton( builder, getString( R.string.reset ) );
-            setNegativeButton( builder, getString( R.string.cancel ) );
-        }else{
-            setPositiveButton( builder, getString( R.string.ok ) );
-            setCancelable( false );
-        }
+        builder.setTitle( title );
+        builder.setMessage( message );
+        // todo add reset button
+        builder.setPositiveButton( "OK", ( dialog, which ) -> listener.success() );
 
-        setTitle( builder, getType() );
-        setMessage( builder, message );
+        return builder.create();
+    }
 
-        final AlertDialog dialog = builder.create();
-
-        if( isReset ){
-            dialog.setOnShowListener( new DialogInterface.OnShowListener(){
-                @Override
-                public void onShow( DialogInterface dialogInterface ){
-                    dialog.getButton( AlertDialog.BUTTON_POSITIVE ).setTextColor( ContextCompat.getColor( getActivity(), R.color.plutus_red ) );
-                    dialog.getButton( AlertDialog.BUTTON_NEGATIVE ).setTextColor( ContextCompat.getColor( getActivity(), R.color.text_clickable ) );
-                }
-            } );
+    @Override
+    public AlertDialog after( AlertDialog dialog )
+    {
+        if ( reset )
+        {
+            dialog.getButton( AlertDialog.BUTTON_POSITIVE )
+                    .setTextColor( ContextCompat.getColor( getActivity(), R.color.plutus_red ) );
+            dialog.getButton( AlertDialog.BUTTON_NEGATIVE )
+                    .setTextColor( ContextCompat.getColor( getActivity(), R.color.text_clickable ) );
         }
         return dialog;
     }
+
+    public interface onPositiveListener
+    {
+        void success();
+    }
+
 }

@@ -1,58 +1,52 @@
 package be.plutus.android.dialog;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
-/**
- * Created by Jan on 28/12/2015.
- */
-public class BaseDialog extends android.support.v4.app.DialogFragment implements DialogInterface.OnClickListener{
+public abstract class BaseDialog extends android.support.v4.app.DialogFragment
+{
 
-    protected String type;
+    protected String title;
     protected String message;
 
-    public interface NoticeDialogListener{
-        void onDialogPositiveClick( BaseDialog dialog, int id );
-        void onDialogNegativeClick( BaseDialog dialog );
+    protected Pair<String, DialogInterface.OnClickListener> positiveButton;
+    protected Pair<String, DialogInterface.OnClickListener> negativeButton;
+
+    public void setTitle( String title )
+    {
+        this.title = title;
     }
 
-    @Override
-    public void onClick( DialogInterface dialogInterface, int id ){
-        NoticeDialogListener callback = (NoticeDialogListener)getTargetFragment();
-        if( id >= -1 ){
-            callback.onDialogPositiveClick( this, id );
-        }else{
-            callback.onDialogNegativeClick( this );
-            this.getDialog().cancel();
-        }
-    }
-
-    public void setDialogType( String type ){
-        this.type = type;
-    }
-
-    public String getType(){
-        return this.type;
-    }
-
-    protected void setTitle( AlertDialog.Builder builder, String title ){
-        builder.setTitle( title );
-    }
-
-    protected void setPositiveButton( AlertDialog.Builder builder, String text ){
-        builder.setPositiveButton( text, this );
-    }
-
-    protected void setNegativeButton( AlertDialog.Builder builder, String text ){
-        builder.setNegativeButton( text, this );
-    }
-
-    protected void setMessage( AlertDialog.Builder builder, String message ){
-        builder.setMessage( message );
-    }
-
-    protected void initializeMessage( String message ){
+    public void setMessage( String message )
+    {
         this.message = message;
+    }
+
+    public void setPositiveButton( String text, DialogInterface.OnClickListener listener )
+    {
+        this.positiveButton = new Pair<>( text, listener );
+    }
+
+    public void setNegativeButton( String text, DialogInterface.OnClickListener listener )
+    {
+        this.negativeButton = new Pair<>( text, listener );
+    }
+
+    public abstract AlertDialog build();
+
+    public abstract AlertDialog after( AlertDialog dialog );
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog( Bundle savedInstanceState )
+    {
+        AlertDialog dialog = build();
+        dialog.setOnShowListener( d -> after( dialog ) );
+        return dialog;
     }
 
 }
