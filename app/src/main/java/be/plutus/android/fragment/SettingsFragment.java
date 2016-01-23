@@ -204,10 +204,10 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_buttonResetApplication )
     public void onResetApplicationButtonClicked()
     {
+        // todo update string to reflect proper button behaviour
         ConfirmationDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_application ), getString( R.string.reset_warning ), () -> {
             app.resetApp();
-            ConfirmationDialog dialog2 = Dialog.confirm( getContext(), getString( R.string.reset_info_application ), getString( R.string.reset_info ), this::exitApplication );
-            dialog2.show( getFragmentManager(), getString( R.string.reset_info_application ) );
+            exitApplication();
         } );
         dialog.show( getFragmentManager(), getString( R.string.reset_application ) );
     }
@@ -215,7 +215,8 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_buttonResetDatabase )
     public void onResetDatabaseButtonClicked()
     {
-        ConfirmationDialog dialog = Dialog.confirm( getContext(), getString( R.string.reset_info_database ), getString( R.string.reset_info ), () -> {
+        // todo update string to reflect proper button behaviour
+        ConfirmationDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_info_database ), getString( R.string.reset_info ), () -> {
             app.resetDatabase();
             exitApplication();
         } );
