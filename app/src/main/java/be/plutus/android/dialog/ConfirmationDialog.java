@@ -1,71 +1,78 @@
 package be.plutus.android.dialog;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
+import android.widget.Button;
 import be.plutus.android.R;
 
 public class ConfirmationDialog extends BaseDialog
 {
 
+    /**
+     * Determines if the reset button is shown
+     */
     private boolean reset;
-    private onPositiveListener listener;
 
-    public static ConfirmationDialog create( String type, String message, onPositiveListener listener )
-    {
-        return create( type, message, false, listener );
-    }
+    /**
+     * The listener that is called when the positive button is pressed
+     */
+    private OnPositiveListener listener;
 
-    public static ConfirmationDialog create( String type, String message, boolean reset, onPositiveListener listener )
-    {
-        ConfirmationDialog dialog = new ConfirmationDialog();
-
-        dialog.setTitle( type );
-        dialog.setMessage( message );
-        dialog.setReset( reset );
-        dialog.setListener( listener );
-
-        return dialog;
-    }
-
+    /**
+     * Sets the show state of the reset button
+     *
+     * @param reset The show state of the reset button
+     */
     public void setReset( boolean reset )
     {
         this.reset = reset;
     }
 
-    public void setListener( onPositiveListener listener )
+    /**
+     * Sets the positive listener of the dialog
+     *
+     * @param listener The positive listener of the dialog
+     */
+    public void setListener( OnPositiveListener listener )
     {
         this.listener = listener;
     }
 
     @Override
-    public AlertDialog build()
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity(), R.style.Plutus_Dialog );
-
-        builder.setTitle( title );
-        builder.setMessage( message );
-        // todo add reset button
-        builder.setPositiveButton( "OK", ( dialog, which ) -> listener.success() );
-
-        return builder.create();
-    }
-
-    @Override
-    public AlertDialog after( AlertDialog dialog )
+    public void after( AlertDialog dialog )
     {
         if ( reset )
         {
-            dialog.getButton( AlertDialog.BUTTON_POSITIVE )
-                    .setTextColor( ContextCompat.getColor( getActivity(), R.color.plutus_red ) );
-            dialog.getButton( AlertDialog.BUTTON_NEGATIVE )
-                    .setTextColor( ContextCompat.getColor( getActivity(), R.color.text_clickable ) );
+            Button positiveButton = dialog.getButton( AlertDialog.BUTTON_POSITIVE );
+            positiveButton.setTextColor( ContextCompat.getColor( getActivity(), R.color.plutus_red ) );
         }
-        return dialog;
+
+        Button negativeButton = dialog.getButton( AlertDialog.BUTTON_NEGATIVE );
+        negativeButton.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_clickable ) );
     }
 
-    public interface onPositiveListener
+    @Override
+    public void notifyPositive( DialogInterface dialog )
     {
-        void success();
+        listener.onPositive();
+    }
+
+    @Override
+    public void notifyNeutral( DialogInterface dialog )
+    {
+
+    }
+
+    @Override
+    public void notifyNegative( DialogInterface dialog )
+    {
+
+    }
+
+    public interface OnPositiveListener extends BaseDialog.OnPositiveListener
+    {
+        void onPositive();
     }
 
 }

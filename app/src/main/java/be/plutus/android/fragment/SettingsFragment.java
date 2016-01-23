@@ -15,6 +15,7 @@ import be.plutus.android.application.Config;
 import be.plutus.android.application.Language;
 import be.plutus.android.application.Window;
 import be.plutus.android.dialog.ConfirmationDialog;
+import be.plutus.android.dialog.Dialog;
 import be.plutus.android.dialog.EditTextDialog;
 import be.plutus.android.dialog.RadioButtonDialog;
 import be.plutus.android.view.CollapseAnimation;
@@ -121,7 +122,7 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_credit_gaugeMinWrapper )
     public void onWrapperGaugeMinClicked()
     {
-        EditTextDialog dialog = EditTextDialog.create( getContext(), getString( R.string.set_minimum ), getString( R.string.setting_minimum_message ), value -> {
+        EditTextDialog dialog = Dialog.text( getContext(), getString( R.string.set_minimum ), getString( R.string.setting_minimum_message ), value -> {
             app.setCreditRepresentationMin( Integer.parseInt( value ) );
             updateView();
         } );
@@ -131,7 +132,7 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_credit_gaugeMaxWrapper )
     public void onWrapperGaugeMaxClicked()
     {
-        EditTextDialog dialog = EditTextDialog.create( getContext(), getString( R.string.set_maximum ), getString( R.string.settings_maximum_message ), value -> {
+        EditTextDialog dialog = Dialog.text( getContext(), getString( R.string.set_maximum ), getString( R.string.settings_maximum_message ), value -> {
             app.setCreditRepresentationMax( Integer.parseInt( value ) );
             updateView();
         } );
@@ -166,7 +167,7 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_languageWrapper )
     public void onLanguageWrapperClicked()
     {
-        RadioButtonDialog dialog = RadioButtonDialog.create( getContext(), getString( R.string.set_language ), getString( R.string.set_language_message ), app.getLanguage()
+        RadioButtonDialog dialog = Dialog.radio( getContext(), getString( R.string.set_language ), getString( R.string.set_language_message ), app.getLanguage()
                 .getPos(), languages, value -> {
             Language language = Language.getByPos( value );
             app.setLanguage( language );
@@ -191,7 +192,7 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_homeScreenWrapper )
     public void onHomeScreenClicked()
     {
-        RadioButtonDialog dialog = RadioButtonDialog.create( getContext(), getString( R.string.set_home_screen ), getString( R.string.set_home_screen_message ), app.getHomeScreen()
+        RadioButtonDialog dialog = Dialog.radio( getContext(), getString( R.string.set_home_screen ), getString( R.string.set_home_screen_message ), app.getHomeScreen()
                 .getPos(), windows, value -> {
             Window window = Window.getByPos( value );
             app.setHomeScreen( window );
@@ -203,9 +204,9 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_buttonResetApplication )
     public void onResetApplicationButtonClicked()
     {
-        ConfirmationDialog dialog = ConfirmationDialog.create( getString( R.string.reset_application ), getString( R.string.reset_warning ), true, () -> {
+        ConfirmationDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_application ), getString( R.string.reset_warning ), () -> {
             app.resetApp();
-            ConfirmationDialog dialog2 = ConfirmationDialog.create( getString( R.string.reset_info_application ), getString( R.string.reset_info ), false, this::exitApplication );
+            ConfirmationDialog dialog2 = Dialog.confirm( getContext(), getString( R.string.reset_info_application ), getString( R.string.reset_info ), this::exitApplication );
             dialog2.show( getFragmentManager(), getString( R.string.reset_info_application ) );
         } );
         dialog.show( getFragmentManager(), getString( R.string.reset_application ) );
@@ -214,7 +215,7 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_buttonResetDatabase )
     public void onResetDatabaseButtonClicked()
     {
-        ConfirmationDialog dialog = ConfirmationDialog.create( getString( R.string.reset_info_database ), getString( R.string.reset_info ), () -> {
+        ConfirmationDialog dialog = Dialog.confirm( getContext(), getString( R.string.reset_info_database ), getString( R.string.reset_info ), () -> {
             app.resetDatabase();
             exitApplication();
         } );

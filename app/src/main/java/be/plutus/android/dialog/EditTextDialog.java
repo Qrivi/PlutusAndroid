@@ -1,73 +1,97 @@
 package be.plutus.android.dialog;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import be.plutus.android.R;
 
-public class EditTextDialog extends BaseDialog implements DialogInterface.OnClickListener
+public class EditTextDialog extends BaseDialog
 {
 
-    private View dialogView;
-    private onPositiveListener listener;
+    /**
+     * The view of the dialog
+     */
+    private View view;
 
-    public static EditTextDialog create( Context context, String title, String message, onPositiveListener listener )
-    {
-        EditTextDialog dialog = new EditTextDialog();
+    /**
+     * The listener that is called when the positive button is pressed
+     */
+    private OnPositiveListener listener;
 
-        dialog.setTitle( title );
-        dialog.setMessage( message );
-        dialog.setListener( listener );
-        dialog.setPositiveButton( context.getString( R.string.ok ), dialog );
-        dialog.setNegativeButton( context.getString( R.string.cancel ), null );
-
-        return dialog;
-    }
-
-    public void setListener( onPositiveListener listener )
+    /**
+     * Sets the positive listener of the dialog
+     *
+     * @param listener The positive listener of the dialog
+     */
+    public void setListener( OnPositiveListener listener )
     {
         this.listener = listener;
     }
 
-    @Override
-    public AlertDialog build()
+    /**
+     * @return The value of the text field in the dialog
+     */
+    public String getValue()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity(), R.style.Plutus_Dialog );
+        if ( view == null )
+            return null;
+
+        EditText editText = (EditText) view.findViewById( R.id.dialog_edit );
+        return editText.getText()
+                .toString();
+    }
+
+    @Override
+    public AlertDialog.Builder build()
+    {
+        AlertDialog.Builder builder = super.build();
+
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        dialogView = inflater.inflate( R.layout.dialog_edittext, null );
+        view = inflater.inflate( R.layout.dialog_edittext, null );
 
-        builder.setView( dialogView );
-        builder.setTitle( title );
-        builder.setMessage( message );
-        builder.setPositiveButton( positiveButton.first, positiveButton.second );
-        builder.setNegativeButton( negativeButton.first, negativeButton.second );
+        builder.setView( view );
 
-        return builder.create();
+        return builder;
     }
 
     @Override
-    public AlertDialog after( AlertDialog dialog )
+    public void after( AlertDialog dialog )
     {
-        dialog.getButton( AlertDialog.BUTTON_NEGATIVE )
-                .setTextColor( ContextCompat.getColor( getActivity(), R.color.text_clickable ) );
-        return dialog;
+        Button negativeButton = dialog.getButton( AlertDialog.BUTTON_NEGATIVE );
+        negativeButton.setTextColor( ContextCompat.getColor( getActivity(), R.color.text_clickable ) );
     }
 
     @Override
-    public void onClick( DialogInterface dialog, int which )
+    public void notifyPositive( DialogInterface dialog )
     {
-        EditText editText = (EditText) dialogView.findViewById( R.id.dialog_edit );
-        listener.success( editText.getText()
+        Log.d( "test", ( (EditText) ( (AlertDialog) dialog ).getWindow()
+                .findViewById( R.layout.dialog_edittext ) ).getText()
                 .toString() );
+        listener.onPositive( getValue() );
     }
 
-    public interface onPositiveListener
+    @Override
+    public void notifyNeutral( DialogInterface dialog )
     {
-        void success( String value );
+
     }
 
+    @Override
+    public void notifyNegative( DialogInterface dialog )
+    {
+
+    }
+
+    public interface OnPositiveListener extends BaseDialog.OnPositiveListener
+    {
+        /**
+         * @param value The value of the text field
+         */
+        void onPositive( String value );
+    }
 }
