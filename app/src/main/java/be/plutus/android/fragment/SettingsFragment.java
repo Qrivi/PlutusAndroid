@@ -14,10 +14,10 @@ import be.plutus.android.activity.MainActivity;
 import be.plutus.android.application.Config;
 import be.plutus.android.application.Language;
 import be.plutus.android.application.Window;
-import be.plutus.android.dialog.ConfirmationDialog;
+import be.plutus.android.dialog.ConfirmDialog;
 import be.plutus.android.dialog.Dialog;
-import be.plutus.android.dialog.EditTextDialog;
-import be.plutus.android.dialog.RadioButtonDialog;
+import be.plutus.android.dialog.InputDialog;
+import be.plutus.android.dialog.OptionDialog;
 import be.plutus.android.view.CollapseAnimation;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
@@ -122,8 +122,8 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_credit_gaugeMinWrapper )
     public void onWrapperGaugeMinClicked()
     {
-        EditTextDialog dialog = Dialog.text( getContext(), getString( R.string.set_minimum ), getString( R.string.setting_minimum_message ), value -> {
-            app.setCreditRepresentationMin( Integer.parseInt( value ) );
+        InputDialog dialog = Dialog.input( getContext(), getString( R.string.set_minimum ), getString( R.string.setting_minimum_message ), d -> {
+            app.setCreditRepresentationMin( Integer.parseInt( ( (InputDialog) d ).getValue() ) );
             updateView();
         } );
         dialog.show( getFragmentManager(), getString( R.string.set_minimum ) );
@@ -132,8 +132,8 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_credit_gaugeMaxWrapper )
     public void onWrapperGaugeMaxClicked()
     {
-        EditTextDialog dialog = Dialog.text( getContext(), getString( R.string.set_maximum ), getString( R.string.settings_maximum_message ), value -> {
-            app.setCreditRepresentationMax( Integer.parseInt( value ) );
+        InputDialog dialog = Dialog.input( getContext(), getString( R.string.set_maximum ), getString( R.string.settings_maximum_message ), d -> {
+            app.setCreditRepresentationMax( Integer.parseInt( ( (InputDialog) d ).getValue() ) );
             updateView();
         } );
         dialog.show( getFragmentManager(), getString( R.string.set_maximum ) );
@@ -167,9 +167,14 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_languageWrapper )
     public void onLanguageWrapperClicked()
     {
-        RadioButtonDialog dialog = Dialog.radio( getContext(), getString( R.string.set_language ), getString( R.string.set_language_message ), app.getLanguage()
-                .getPos(), languages, value -> {
-            Language language = Language.getByPos( value );
+        OptionDialog dialog = Dialog.option( getContext(), getString( R.string.set_language ), getString( R.string.set_language_message ), app.getLanguage()
+                .getPos(), languages, d -> {
+            int pos = ( (OptionDialog) d ).getValue();
+
+            if ( pos == -1 )
+                return;
+
+            Language language = Language.getByPos( pos );
             app.setLanguage( language );
 
             Intent intent = new Intent( main, MainActivity.class );
@@ -192,9 +197,14 @@ public class SettingsFragment extends BaseFragment
     @OnClick( R.id.pref_application_homeScreenWrapper )
     public void onHomeScreenClicked()
     {
-        RadioButtonDialog dialog = Dialog.radio( getContext(), getString( R.string.set_home_screen ), getString( R.string.set_home_screen_message ), app.getHomeScreen()
-                .getPos(), windows, value -> {
-            Window window = Window.getByPos( value );
+        OptionDialog dialog = Dialog.option( getContext(), getString( R.string.set_home_screen ), getString( R.string.set_home_screen_message ), app.getHomeScreen()
+                .getPos(), windows, d -> {
+            int pos = ( (OptionDialog) d ).getValue();
+
+            if ( pos == -1 )
+                return;
+
+            Window window = Window.getByPos( pos );
             app.setHomeScreen( window );
             updateView();
         } );
@@ -205,7 +215,7 @@ public class SettingsFragment extends BaseFragment
     public void onResetApplicationButtonClicked()
     {
         // todo update string to reflect proper button behaviour
-        ConfirmationDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_application ), getString( R.string.reset_warning ), () -> {
+        ConfirmDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_application ), getString( R.string.reset_warning ), d -> {
             app.resetApp();
             exitApplication();
         } );
@@ -216,7 +226,7 @@ public class SettingsFragment extends BaseFragment
     public void onResetDatabaseButtonClicked()
     {
         // todo update string to reflect proper button behaviour
-        ConfirmationDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_info_database ), getString( R.string.reset_info ), () -> {
+        ConfirmDialog dialog = Dialog.reset( getContext(), getString( R.string.reset_info_database ), getString( R.string.reset_info ), d -> {
             app.resetDatabase();
             exitApplication();
         } );
