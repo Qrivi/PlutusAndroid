@@ -43,7 +43,6 @@ public class PlutusAndroid extends Application
     private Transaction transactionDetail;
 
     private IOService ioService;
-    private NetworkClient networkClient;
 
     boolean databaseIncomplete;
 
@@ -60,7 +59,6 @@ public class PlutusAndroid extends Application
         super.onCreate();
         instance = this;
         ioService = new IOService( getAppContext() );
-        networkClient = new NetworkClient();
 
         // get defaults
         defaultLocale = Locale.getDefault();
