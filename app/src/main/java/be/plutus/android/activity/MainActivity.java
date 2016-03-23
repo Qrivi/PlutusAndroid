@@ -67,7 +67,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         ButterKnife.bind( this );
 
         setSupportActionBar( mToolbar );
-        setFragment( app.getHomeScreen() );
+
+        if ( getIntent().getStringExtra( "localization" ) == null )
+        {
+            setFragment( app.getHomeScreen() );
+        }
 
         mDrawerToggle = new ActionBarDrawerToggle( this, mDrawerLayout, mToolbar, R.string.open_drawer, R.string.close_drawer )
         {
@@ -113,6 +117,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         {
             Log.i( "Localization", "Application Locale was updated" );
             setFragment( Window.SETTINGS );
+            getIntent().removeExtra( "localization" );
         }
 
         if ( app.fetchRequired() )
