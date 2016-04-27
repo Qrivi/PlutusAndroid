@@ -23,9 +23,9 @@
     <string name="alpha_feature">Warning: alpha feature</string>
 
     <string name="language_system">System default</string>
-    <string name="language_english">English</string>
-    <string name="language_dutch">Dutch</string>
-    <string name="language_french">French</string>
+    <string name="language_english">English (English)</string>
+    <string name="language_dutch">Dutch (Nederlands)</string>
+    <string name="language_french">French (Français)</string>
 
     <!-- DATE AND TIME -->
 

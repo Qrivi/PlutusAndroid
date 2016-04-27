@@ -23,9 +23,9 @@
     <string name="alpha_feature">Opgelet: alphafeature</string>
 
     <string name="language_system">Taal van toestel</string>
-    <string name="language_english">Engels</string>
-    <string name="language_dutch">Nederlands</string>
-    <string name="language_french">Frans</string>
+    <string name="language_english">Engels (English)</string>
+    <string name="language_dutch">Nederlands (Nederlands)</string>
+    <string name="language_french">Frans (Français)</string>
 
     <!-- DATE AND TIME -->
 

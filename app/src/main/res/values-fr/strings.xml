@@ -22,10 +22,10 @@
     <string name="not_in_beta">Non disponible dans cette bêta</string>
     <string name="alpha_feature">Attention : fonction alpha</string>
 
-    <string name="language_system">Langue du téléphone</string>
-    <string name="language_english">Anglais</string>
-    <string name="language_dutch">Néerlandais</string>
-    <string name="language_french">Français</string>
+    <string name="language_system">Langage du téléphone</string>
+    <string name="language_english">Anglais (English)</string>
+    <string name="language_dutch">Néerlandais (Nederlands)</string>
+    <string name="language_french">Français (Français)</string>
 
     <!-- DATE AND TIME -->
 
@@ -75,7 +75,7 @@
     <string name="this_field_is_required">Champ obligatoire</string>
     <string name="this_id_is_too_short">Ce numéro est trop court</string>
     <string name="this_id_does_not_exist">Ce numéro n\'existe pas</string>
-    <string name="password_is_incorrect">Mot de pas invalide</string>
+    <string name="password_is_incorrect">Mot de passe invalide</string>
 
     <!-- INTERACTION -->
 
@@ -93,7 +93,7 @@
 
     <!-- SETTINGS -->
 
-    <string name="show_credit_gauge">Afficher compteur de crédit</string>
+    <string name="show_credit_gauge">Afficher le compteur de crédit</string>
     <string name="visualy_display_your_current_credit">Consultez votre crédit de façon graphique</string>
     <string name="set_minimum">Limite minimum</string>
     <string name="setting_minimum_message">Ce montant sera utilisé comme valeur minimum du compteur.</string>
@@ -151,10 +151,9 @@
         tard ou contactez-nous concernant ce problème.
     </string>
     <string name="error_endpoint_transactions">
-        Plutus n\'a pas pu récupérer les opérations les plus écentes.\n\nContrôlez si vous utilisez la dernière version
-        de
-        l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus
-        tard ou contactez-nous concernant ce problème.
+        Plutus n\'a pas pu récupérer les opérations les plus récentes.\n\nContrôlez si vous utilisez la dernière version
+        de l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez
+        plus tard ou contactez-nous concernant ce problème.
     </string>
     <string name="error_loading_map">
         Une erreur est survenue lors du chargement de la carte. Ceci ne devrait pas influencer le bon fonctionnement de
