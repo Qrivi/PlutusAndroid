@@ -113,13 +113,20 @@
 
     <string name="reset_application">Reset application</string>
     <string name="reset_database">Reset database</string>
-    <string name="reset_info_application">The application has been reset</string>
-    <string name="reset_info_database">The database has been reset</string>
     <string name="reset_description">
         If Plutus seems malfunctioning or displays incorrect data, you can reset it here.
     </string>
+    <string name="reset_info_application">
+        Resetting the application requires Plutus to restart. The local copy of your transaction history and your
+        personal preferences will be removed.
+    </string>
+    <string name="reset_info_database">
+        Resetting the database requires Plutus to restart. The local copy of your transaction history will be removed.
+    </string>
+
+
     <string name="reset_warning">
-        Resetting Plutus will remove all locally stored files such as databases and preferences.
+        Resetting the application will Plutus will remove all locally stored files such as databases and preferences.
     </string>
     <string name="reset_info">Plutus will now close.</string>
 
@@ -138,18 +145,21 @@
         Error loading data from API into application:\n\n
     </string>
     <string name="error_endpoint_verify">
-        Plutus was unable to verify your credentials. Make sure that you are using the latest version of the application. If this
+        Plutus was unable to verify your credentials. Make sure that you are using the latest version of the
+        application. If this
         problem persist, our servers might temporarily be down. Please try again later or consider contacting us about
         this issue.
     </string>
     <string name="error_endpoint_credit">
         Plutus was unable to check your remaining credit. The current data might be outdated.\n\nMake sure that you are
-        using the latest version of the application. If this problem persist, our servers might temporarily be down. Please try
+        using the latest version of the application. If this problem persist, our servers might temporarily be down.
+        Please try
         again later or consider contacting us about this issue.
     </string>
     <string name="error_endpoint_transactions">
         Plutus was unable to check for new transactions. The current data might be outdated.\n\nMake sure that you are
-        using the latest version of the application. If this problem persist, our servers might temporarily be down. Please try
+        using the latest version of the application. If this problem persist, our servers might temporarily be down.
+        Please try
         again later or consider contacting us about this issue.
     </string>
     <string name="error_loading_map">

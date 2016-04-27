@@ -82,7 +82,7 @@
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
     <string name="dismiss">OK</string>
-    <string name="reset">Reset</string>
+    <string name="reset">Réinitialiser</string>
     <string name="pull_down_to_refresh">Tirer pour rafraîchir</string>
 
     <string name="database_setting_up">L\'initialisation peut prendre un certain temps</string>
@@ -113,16 +113,18 @@
 
     <string name="reset_application">Réinitialiser l\'application</string>
     <string name="reset_database">Réinitialiser la base de données</string>
-    <string name="reset_info_application">L\'application a été réinitialisée</string>
-    <string name="reset_info_database">La base de données a été réinitialisée</string>
     <string name="reset_description">
         Si Plutus semble ne pas fonctionner correctement ou affiche des données incorrectes, vous pouvez réinitialliser
         ici.
     </string>
-    <string name="reset_warning">
-        La réinitialisation de Plutus effacera toutes données locales telles que base de données et préférences.
+    <string name="reset_info_application">
+        Réinitialiser l\'application nécessite que Plutus redémarre. L\'histoire locale de vos opérations et vos
+        préférences personelles seront éffacées.
     </string>
-    <string name="reset_info">Vous devez relancer Plutus.</string>
+    <string name="reset_info_database">
+        Réinitialiser la base de données nécessite que Plutus redémarre. L\'histoire locale de vos opérations sera
+        éffacée.
+    </string>
 
     <!-- ERROR MESSAGES -->
 
@@ -149,7 +151,8 @@
         tard ou contactez-nous concernant ce problème.
     </string>
     <string name="error_endpoint_transactions">
-        Plutus n\'a pas pu récuperer les opérations les plus écentes.\n\nContrôlez si vous utilisez la dernière version de
+        Plutus n\'a pas pu récuperer les opérations les plus écentes.\n\nContrôlez si vous utilisez la dernière version
+        de
         l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus
         tard ou contactez-nous concernant ce problème.
     </string>

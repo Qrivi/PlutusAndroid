@@ -174,6 +174,7 @@ public class IOService
     public void cleanDatabase()
     {
         dbAdapter.truncateTables();
+        spAdapter.clearCredit();
     }
 
     public void clearDatabase()

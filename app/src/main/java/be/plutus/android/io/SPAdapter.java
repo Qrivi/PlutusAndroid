@@ -122,6 +122,11 @@ public class SPAdapter{
         editor.commit();
     }
 
+    public void clearCredit(){
+        editor.remove( "credit" );
+        editor.commit();
+    }
+
     public void cleanSharedPreferences(){
         editor.remove( "password" );
         editor.remove( "first_name" );

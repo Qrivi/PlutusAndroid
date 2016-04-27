@@ -92,10 +92,6 @@ public class CreditFragment extends BaseFragment implements SwipeRefreshLayout.O
         String euros = amount.substring( 0, amount.length() - 3 );
         String cents = amount.substring( amount.length() - 3, amount.length() );
 
-        mEuros.setText( euros );
-        mCents.setText( cents );
-        mCurrency.setText( Config.API_DEFAULT_CURRENCY );
-
         if ( app.getCreditRepresentation() )
         {
             mGaugeBg.setVisibility( View.VISIBLE );
@@ -140,6 +136,10 @@ public class CreditFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             mDate.setText( getString( R.string.on_date, date ) );
             mTime.setText( getString( R.string.at_time, time ) );
+
+            mEuros.setText( euros );
+            mCents.setText( cents );
+            mCurrency.setText( Config.API_DEFAULT_CURRENCY );
         }
     }
 

@@ -113,15 +113,16 @@
 
     <string name="reset_application">Reset applicatie</string>
     <string name="reset_database">Reset database</string>
-    <string name="reset_info_application">De applicatie werd gereset</string>
-    <string name="reset_info_database">De database werd gereset</string>
     <string name="reset_description">
         Als Plutus niet correct lijkt te werken of foutieve data weergeeft, kan je de app hier resetten.
     </string>
-    <string name="reset_warning">
-        Het resetten van Plutus verwijderd alle lokaal opgeslagen gegevens zoals de database en persoonlijke voorkeuren.
+    <string name="reset_info_application">
+        Plutus moet opnieuw gestart worden wanneer je de app reset. De opgeslagen kopie van je verrichtingen en je
+        persoonlijke voorkeuren zullen hierdoor gewist worden.
     </string>
-    <string name="reset_info">Plutus wordt nu afgesloten.</string>
+    <string name="reset_info_database">
+        Plutus moet opnieuw gestart worden wanneer je de database reset. De opgeslagen kopie van je verrichtingen zal hierdoor gewist worden.
+    </string>
 
     <!-- ERROR MESSAGES -->
 
