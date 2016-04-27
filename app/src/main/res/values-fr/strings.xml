@@ -20,7 +20,7 @@
     <string name="not_applicable_short">s. o.</string>
     <string name="not_applicable_full">sans objet</string>
     <string name="not_in_beta">Non disponible dans cette bêta</string>
-    <string name="alpha_feature">Attention: fonction alpha</string>
+    <string name="alpha_feature">Attention : fonction alpha</string>
 
     <string name="language_system">Langue du téléphone</string>
     <string name="language_english">Anglais</string>
@@ -98,28 +98,28 @@
     <string name="set_minimum">Limite minimum</string>
     <string name="setting_minimum_message">Ce montant sera utilisé comme valeur minimum du compteur.</string>
     <string name="set_maximum">Limite maximum</string>
-    <string name="settings_maximum_message">Ce montant sera utilisée comme valeur maximum du compteur.</string>
+    <string name="settings_maximum_message">Ce montant sera utilisé comme valeur maximum du compteur.</string>
 
     <string name="enable_notifications">Activer les notifications</string>
     <string name="get_notified_about_your_credit">Recevez des notifications concernant votre crédit</string>
 
-    <string name="set_home_screen">Définir l\'écran d\'acceuil</string>
-    <string name="set_home_screen_message">Choississez l\'écran de départ de l\'application.</string>
-    <string name="set_language">Forcer le language</string>
+    <string name="set_home_screen">Définir l\'écran d\'accueil</string>
+    <string name="set_home_screen_message">Choisissez l\'écran de départ de l\'application.</string>
+    <string name="set_language">Forcer le langage</string>
     <string name="set_language_message">
-        Certaines informations stockées ne seront traduit qu\'après altération du language sur Intranet et la
+        Certaines informations stockées ne seront traduit qu\'après altération du langage sur Intranet et la
         réinitialisation de la base de données de Plutus.
     </string>
 
     <string name="reset_application">Réinitialiser l\'application</string>
     <string name="reset_database">Réinitialiser la base de données</string>
     <string name="reset_description">
-        Si Plutus semble ne pas fonctionner correctement ou affiche des données incorrectes, vous pouvez réinitialliser
-        ici.
+        Si Plutus semble ne pas fonctionner correctement ou affiche des données incorrectes, vous pouvez réinitialiser
+        l\'application ici.
     </string>
     <string name="reset_info_application">
         Réinitialiser l\'application nécessite que Plutus redémarre. L\'histoire locale de vos opérations et vos
-        préférences personelles seront éffacées.
+        préférences personnelles seront éffacées.
     </string>
     <string name="reset_info_database">
         Réinitialiser la base de données nécessite que Plutus redémarre. L\'histoire locale de vos opérations sera
@@ -132,26 +132,26 @@
         Oups, une erreur s\'est produite!
     </string>
     <string name="error_fetching_credit">
-        Erreur lors de la récupeération du crédit :\n\n
+        Erreur lors de la récupération du crédit :\n\n
     </string>
     <string name="error_fetching_transactions">
-        Erreur lors de la récupeération des opérations :\n\n
+        Erreur lors de la récupération des opérations :\n\n
     </string>
     <string name="error_loading_data_into_app">
-        Erreur lors du chargement du données :\n\n
+        Erreur lors du chargement des données :\n\n
     </string>
     <string name="error_endpoint_verify">
         Plutus n\'a pas pu valider vos données. Contrôlez si vous utilisez la dernière version de l\'application. Si
         cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus tard ou
-        contactez-nousconcernant ce problème.
+        contactez-nous concernant ce problème.
     </string>
     <string name="error_endpoint_credit">
-        Plutus n\'a pas pu récuperer votre crédit actuel.\n\nContrôlez si vous utilisez la dernière version de
+        Plutus n\'a pas pu récupérer votre crédit actuel.\n\nContrôlez si vous utilisez la dernière version de
         l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus
         tard ou contactez-nous concernant ce problème.
     </string>
     <string name="error_endpoint_transactions">
-        Plutus n\'a pas pu récuperer les opérations les plus écentes.\n\nContrôlez si vous utilisez la dernière version
+        Plutus n\'a pas pu récupérer les opérations les plus écentes.\n\nContrôlez si vous utilisez la dernière version
         de
         l\'application. Si cette erreur persiste, nos serveurs peuvent être temporairement indisponible. Réessayez plus
         tard ou contactez-nous concernant ce problème.
@@ -166,7 +166,7 @@
     </string>
     <string name="error_no_maps_app_installed">
         Il paraît qu\'il n\'y a pas d\'application installée pouvant vous indiquer la voie vers ce campus. Installez une
-        application adequate et revenez appuyer sur notre bouton!
+        application adéquate et revenez appuyer sur notre bouton!
     </string>
 
     <!-- NOT YET LOCALIZED -->
