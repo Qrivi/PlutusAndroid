@@ -1,8 +1,8 @@
-package be.plutus.android.view;
+package be.plutus.android.adapters;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import be.plutus.android.application.Config;
+import be.plutus.android.config.Config;
 
 /**
  * Created by Krivi on 25/12/15.

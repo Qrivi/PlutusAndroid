@@ -16,7 +16,7 @@ public class InputDialog extends BaseDialog
 {
 
     @Override
-    protected AlertDialog.Builder build()
+    public AlertDialog.Builder build()
     {
         AlertDialog.Builder builder = super.build();
 

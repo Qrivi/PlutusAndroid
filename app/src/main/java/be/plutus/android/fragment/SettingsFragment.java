@@ -10,16 +10,16 @@ import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import be.plutus.android.R;
-import be.plutus.android.activity.MainActivity;
-import be.plutus.android.application.Config;
-import be.plutus.android.application.Language;
-import be.plutus.android.application.Window;
+import be.plutus.android.animations.CollapseAnimation;
+import be.plutus.android.config.Config;
+import be.plutus.android.model.Language;
+import be.plutus.android.model.Window;
 import be.plutus.android.dialog.ConfirmDialog;
 import be.plutus.android.dialog.Dialog;
 import be.plutus.android.dialog.InputDialog;
 import be.plutus.android.dialog.OptionDialog;
-import be.plutus.android.view.CollapseAnimation;
-import be.plutus.android.view.Message;
+import be.plutus.android.utils.Message;
+import be.plutus.android.activity.MainActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -83,7 +83,6 @@ public class SettingsFragment extends BaseFragment
     @Override
     public void updateView()
     {
-
         mCreditMinMaxWrapper.setVisibility( View.GONE );
         if ( app.getCreditRepresentation() )
         {

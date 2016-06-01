@@ -9,8 +9,8 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.view.inputmethod.InputMethodManager;
 import be.plutus.android.R;
-import be.plutus.android.application.Language;
-import be.plutus.android.application.PlutusAndroid;
+import be.plutus.android.model.Language;
+import be.plutus.android.PlutusAndroid;
 
 import java.util.Locale;
 

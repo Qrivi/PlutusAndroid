@@ -1,5 +1,5 @@
 # Application secrets
-app/src/main/java/be/plutus/android/application/Config.java
+app/src/main/java/be/plutus/android/config/Config.java
 
 # Windows image file caches
 Thumbs.db

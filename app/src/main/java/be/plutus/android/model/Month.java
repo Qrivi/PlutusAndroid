@@ -1,7 +1,7 @@
 package be.plutus.android.model;
 
 import be.plutus.android.R;
-import be.plutus.android.application.PlutusAndroid;
+import be.plutus.android.PlutusAndroid;
 
 /**
  * Created by Krivi on 24/12/15.

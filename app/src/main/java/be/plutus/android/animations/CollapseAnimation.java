@@ -1,4 +1,4 @@
-package be.plutus.android.view;
+package be.plutus.android.animations;
 
 import android.view.View;
 import android.view.ViewGroup;

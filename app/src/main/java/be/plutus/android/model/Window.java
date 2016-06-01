@@ -1,4 +1,4 @@
-package be.plutus.android.application;
+package be.plutus.android.model;
 
 import be.plutus.android.R;
 

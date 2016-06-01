@@ -83,7 +83,6 @@ public class IOService
         return spAdapter.getLanguageTag();
     }
 
-
     public boolean isUserSaved()
     {
         return spAdapter.isUserSaved();

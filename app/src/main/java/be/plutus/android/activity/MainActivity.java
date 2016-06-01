@@ -17,19 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import be.plutus.android.R;
-import be.plutus.android.application.Window;
+import be.plutus.android.api.RESTService;
+import be.plutus.android.api.model.Credit;
+import be.plutus.android.api.model.meta.DefaultMeta;
+import be.plutus.android.api.response.CreditResponse;
+import be.plutus.android.api.response.TransactionsResponse;
+import be.plutus.android.model.Window;
 import be.plutus.android.fragment.BaseFragment;
 import be.plutus.android.fragment.CreditFragment;
 import be.plutus.android.fragment.SettingsFragment;
 import be.plutus.android.fragment.TransactionsFragment;
 import be.plutus.android.model.Transaction;
 import be.plutus.android.model.User;
-import be.plutus.android.api.RESTService;
-import be.plutus.android.api.model.Credit;
-import be.plutus.android.api.model.meta.DefaultMeta;
-import be.plutus.android.api.response.CreditResponse;
-import be.plutus.android.api.response.TransactionsResponse;
-import be.plutus.android.view.Message;
+import be.plutus.android.utils.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.annimon.stream.Collectors;
@@ -375,7 +375,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private boolean canConnectToInternet()
     {
-
         if ( !app.isNetworkAvailable() )
         {
             Message.snack( mDrawerLayout, getString( R.string.no_internet_connection ) );

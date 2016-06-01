@@ -1,4 +1,4 @@
-package be.plutus.android.view;
+package be.plutus.android.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import be.plutus.android.R;
-import be.plutus.android.application.Config;
+import be.plutus.android.config.Config;
 import be.plutus.android.model.Transaction;
 import butterknife.Bind;
 import butterknife.ButterKnife;

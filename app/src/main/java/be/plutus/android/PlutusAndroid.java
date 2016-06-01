@@ -1,19 +1,21 @@
-package be.plutus.android.application;
+package be.plutus.android;
 
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.Log;
-import be.plutus.android.R;
 import be.plutus.android.activity.BaseActivity;
 import be.plutus.android.activity.MainActivity;
-import be.plutus.android.io.IOService;
-import be.plutus.android.model.Transaction;
-import be.plutus.android.model.User;
 import be.plutus.android.api.RESTService;
 import be.plutus.android.api.ServiceGenerator;
 import be.plutus.android.api.response.TransactionsResponse;
-import be.plutus.android.view.Message;
+import be.plutus.android.config.Config;
+import be.plutus.android.io.IOService;
+import be.plutus.android.model.Language;
+import be.plutus.android.model.Transaction;
+import be.plutus.android.model.User;
+import be.plutus.android.model.Window;
+import be.plutus.android.utils.Message;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import retrofit.Call;

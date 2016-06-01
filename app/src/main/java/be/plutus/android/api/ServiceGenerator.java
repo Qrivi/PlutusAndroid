@@ -1,7 +1,7 @@
 package be.plutus.android.api;
 
 import android.util.Base64;
-import be.plutus.android.application.Config;
+import be.plutus.android.config.Config;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;

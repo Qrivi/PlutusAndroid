@@ -29,6 +29,7 @@ public class Dialog
         dialog.setReset( false );
         dialog.addListener( listener );
         dialog.setPositiveButton( context.getString( R.string.ok ), null );
+        dialog.setContext( context );
 
         return dialog;
     }
@@ -52,6 +53,7 @@ public class Dialog
         dialog.addListener( listener );
         dialog.setPositiveButton( context.getString( R.string.reset ), null );
         dialog.setNegativeButton( context.getString( R.string.cancel ), null );
+        dialog.setContext( context );
 
         return dialog;
     }
@@ -74,6 +76,7 @@ public class Dialog
         dialog.addListener( listener );
         dialog.setPositiveButton( context.getString( R.string.ok ), null );
         dialog.setNegativeButton( context.getString( R.string.cancel ), null );
+        dialog.setContext( context );
 
         return dialog;
     }

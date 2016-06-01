@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import be.plutus.android.R;
-import be.plutus.android.application.Config;
+import be.plutus.android.config.Config;
 import be.plutus.android.model.Location;
 import be.plutus.android.model.Transaction;
-import be.plutus.android.util.DateUtil;
-import be.plutus.android.view.Message;
+import be.plutus.android.utils.DateUtils;
+import be.plutus.android.utils.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -184,8 +184,8 @@ public class DetailActivity extends BaseActivity implements OnMapReadyCallback
 
             //TODO add user pref for 24H or AM/PM
 
-            String date = DateUtil.toTime( timestamp );
-            String time = DateUtil.toDate( timestamp );
+            String date = DateUtils.toTime( timestamp );
+            String time = DateUtils.toDate( timestamp );
 
             mDate.setText( getString( R.string.on_timestamp, date, time ) );
 

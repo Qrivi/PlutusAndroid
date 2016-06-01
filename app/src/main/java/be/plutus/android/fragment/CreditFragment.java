@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import be.plutus.android.R;
-import be.plutus.android.application.Config;
-import be.plutus.android.util.DateUtil;
-import be.plutus.android.view.GaugeAnimation;
-import be.plutus.android.view.Message;
+import be.plutus.android.animations.GaugeAnimation;
+import be.plutus.android.config.Config;
+import be.plutus.android.utils.DateUtils;
+import be.plutus.android.utils.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -64,7 +64,6 @@ public class CreditFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
-
         final View view = inflater.inflate( R.layout.fragment_credit, container, false );
         ButterKnife.bind( this, view );
 
@@ -131,8 +130,8 @@ public class CreditFragment extends BaseFragment implements SwipeRefreshLayout.O
                     .getFetchDate();
 
             //TODO add user pref for 24H or AM/PM
-            String time = DateUtil.toTime( fetchDate );
-            String date = DateUtil.toDate( fetchDate );
+            String time = DateUtils.toTime( fetchDate );
+            String date = DateUtils.toDate( fetchDate );
 
             mDate.setText( getString( R.string.on_date, date ) );
             mTime.setText( getString( R.string.at_time, time ) );

@@ -3,7 +3,7 @@ package be.plutus.android.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import be.plutus.android.activity.MainActivity;
-import be.plutus.android.application.PlutusAndroid;
+import be.plutus.android.PlutusAndroid;
 
 /**
  * Created by Krivi on 29/12/15.

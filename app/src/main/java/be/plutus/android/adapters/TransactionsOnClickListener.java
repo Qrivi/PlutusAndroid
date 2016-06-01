@@ -1,4 +1,4 @@
-package be.plutus.android.view;
+package be.plutus.android.adapters;
 
 import android.view.View;
 import be.plutus.android.model.Transaction;

@@ -2,7 +2,7 @@ package be.plutus.android.io;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import be.plutus.android.application.Config;
+import be.plutus.android.config.Config;
 import be.plutus.android.model.User;
 
 import java.util.Date;

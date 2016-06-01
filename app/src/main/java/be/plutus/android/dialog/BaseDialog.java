@@ -24,7 +24,6 @@ public abstract class BaseDialog extends android.support.v4.app.DialogFragment
      */
     protected Context context;
 
-
     /**
      * Title and message of the dialog
      */
@@ -126,9 +125,9 @@ public abstract class BaseDialog extends android.support.v4.app.DialogFragment
     /**
      * @return An instance of the AlertDialog builder with the default properties added
      */
-    protected AlertDialog.Builder build()
+    public AlertDialog.Builder build()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity(), R.style.Plutus_Dialog );
+        AlertDialog.Builder builder = new AlertDialog.Builder( context, R.style.Plutus_Dialog );
 
         if ( title != null )
             builder.setTitle( title );
@@ -227,7 +226,10 @@ public abstract class BaseDialog extends android.support.v4.app.DialogFragment
     protected void notifyPositive( BaseDialog dialog )
     {
         Stream.of( positiveListeners )
-                .forEach( l -> l.onPositive( dialog ) );
+                .forEach( l -> {
+                    if ( l != null )
+                        l.onPositive( dialog );
+                } );
     }
 
     /**
@@ -238,7 +240,10 @@ public abstract class BaseDialog extends android.support.v4.app.DialogFragment
     protected void notifyNeutral( BaseDialog dialog )
     {
         Stream.of( neutralListeners )
-                .forEach( l -> l.onNeutral( dialog ) );
+                .forEach( l -> {
+                    if ( l != null )
+                        l.onNeutral( dialog );
+                } );
     }
 
     /**
@@ -249,7 +254,10 @@ public abstract class BaseDialog extends android.support.v4.app.DialogFragment
     protected void notifyNegative( BaseDialog dialog )
     {
         Stream.of( negativeListeners )
-                .forEach( l -> l.onNegative( dialog ) );
+                .forEach( l -> {
+                    if ( l != null )
+                        l.onNegative( dialog );
+                } );
     }
 
 }

@@ -1,15 +1,14 @@
-package be.plutus.android.view;
+package be.plutus.android.utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import be.plutus.android.R;
+import be.plutus.android.dialog.Dialog;
 
 public abstract class Message
 {
@@ -35,15 +34,8 @@ public abstract class Message
 
     public static void obtrusive( Context context, String message )
     {
-        new AlertDialog.Builder( context, R.style.Plutus_Dialog ).setTitle( context.getString( R.string.something_went_wrong ) )
-                .setMessage( message )
-                .setPositiveButton( R.string.ok, new DialogInterface.OnClickListener()
-                {
-                    public void onClick( DialogInterface dialog, int which )
-                    {
-                        // empty dismisses dialog
-                    }
-                } )
+        Dialog.confirm( context, context.getString( R.string.something_went_wrong ), message, null )
+                .build()
                 .show();
     }
 }
