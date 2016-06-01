@@ -24,11 +24,11 @@ import be.plutus.android.fragment.SettingsFragment;
 import be.plutus.android.fragment.TransactionsFragment;
 import be.plutus.android.model.Transaction;
 import be.plutus.android.model.User;
-import be.plutus.android.network.retrofit.RESTService;
-import be.plutus.android.network.retrofit.model.Credit;
-import be.plutus.android.network.retrofit.model.meta.DefaultMeta;
-import be.plutus.android.network.retrofit.response.CreditResponse;
-import be.plutus.android.network.retrofit.response.TransactionsResponse;
+import be.plutus.android.api.RESTService;
+import be.plutus.android.api.model.Credit;
+import be.plutus.android.api.model.meta.DefaultMeta;
+import be.plutus.android.api.response.CreditResponse;
+import be.plutus.android.api.response.TransactionsResponse;
 import be.plutus.android.view.Message;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -349,7 +349,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     TransactionsResponse transactionsResponse = response.body();
 
                     List<Transaction> transactions = Stream.of( transactionsResponse.getData() )
-                            .map( be.plutus.android.network.retrofit.model.Transaction::convert )
+                            .map( be.plutus.android.api.model.Transaction::convert )
                             .collect( Collectors.toList() );
 
                     app.writeTransactions( transactions );
@@ -370,7 +370,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     public void updateFragment()
     {
-
         currentFragment.updateView();
     }
 

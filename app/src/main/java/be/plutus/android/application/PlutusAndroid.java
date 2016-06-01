@@ -10,10 +10,9 @@ import be.plutus.android.activity.MainActivity;
 import be.plutus.android.io.IOService;
 import be.plutus.android.model.Transaction;
 import be.plutus.android.model.User;
-import be.plutus.android.network.retrofit.RESTService;
-import be.plutus.android.network.retrofit.ServiceGenerator;
-import be.plutus.android.network.retrofit.response.TransactionsResponse;
-import be.plutus.android.network.volley.NetworkClient;
+import be.plutus.android.api.RESTService;
+import be.plutus.android.api.ServiceGenerator;
+import be.plutus.android.api.response.TransactionsResponse;
 import be.plutus.android.view.Message;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -382,7 +381,7 @@ public class PlutusAndroid extends Application
                     TransactionsResponse transactionsResponse = response.body();
 
                     List<Transaction> transactions = Stream.of( transactionsResponse.getData() )
-                            .map( be.plutus.android.network.retrofit.model.Transaction::convert )
+                            .map( be.plutus.android.api.model.Transaction::convert )
                             .collect( Collectors.toList() );
 
                     if ( !transactions.isEmpty() && writeTransactions( transactions ) && databaseIncomplete )

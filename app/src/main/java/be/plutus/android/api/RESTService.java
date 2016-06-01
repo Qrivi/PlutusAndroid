@@ -1,8 +1,8 @@
-package be.plutus.android.network.retrofit;
+package be.plutus.android.api;
 
-import be.plutus.android.network.retrofit.response.CreditResponse;
-import be.plutus.android.network.retrofit.response.TransactionsResponse;
-import be.plutus.android.network.retrofit.response.VerifyResponse;
+import be.plutus.android.api.response.CreditResponse;
+import be.plutus.android.api.response.TransactionsResponse;
+import be.plutus.android.api.response.VerifyResponse;
 import retrofit.Call;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;

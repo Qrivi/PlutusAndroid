@@ -1,4 +1,4 @@
-package be.plutus.android.network.retrofit.model.meta;
+package be.plutus.android.api.model.meta;
 
 import com.google.gson.annotations.SerializedName;
 

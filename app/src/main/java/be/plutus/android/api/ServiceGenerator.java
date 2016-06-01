@@ -1,4 +1,4 @@
-package be.plutus.android.network.retrofit;
+package be.plutus.android.api;
 
 import android.util.Base64;
 import be.plutus.android.application.Config;

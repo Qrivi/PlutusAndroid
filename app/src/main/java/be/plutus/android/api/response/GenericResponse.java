@@ -1,6 +1,6 @@
-package be.plutus.android.network.retrofit.response;
+package be.plutus.android.api.response;
 
-import be.plutus.android.network.retrofit.model.meta.DefaultMeta;
+import be.plutus.android.api.model.meta.DefaultMeta;
 import com.google.gson.annotations.SerializedName;
 
 public abstract class GenericResponse <M extends DefaultMeta, O extends Object>

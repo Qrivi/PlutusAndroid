@@ -89,11 +89,11 @@ public class Dialog
      * @param listener    The listener that will be called when the "OK" button is clicked
      * @return An option dialog with the given parameters
      */
-    public static OptionDialog option( Context context, String type, String message, int current, List<Integer> optionsList, BaseDialog.OnPositiveListener listener )
+    public static OptionDialog option( Context context, String title, String message, int current, List<Integer> optionsList, BaseDialog.OnPositiveListener listener )
     {
         OptionDialog dialog = new OptionDialog();
 
-        dialog.setTitle( type );
+        dialog.setTitle( title );
         //dialog.setMessage( message ); // AlertDialog doesn't support this
         dialog.addListener( listener );
         dialog.setContext( context );
